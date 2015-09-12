@@ -1,35 +1,32 @@
-<!DOCTYPE>
-<!DOCTYPE>
-<html>
-  <body>
-  <center>
+<!doctype html>
+<html lang="en">
 
-<h1>Smart Water Saver</h1>
-  <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
-
-<head>
 <style>
-p.serif {
-    font-family: "Times New Roman", Times, serif;
-}
-
 body {
-    font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 0 30px; /* top/bottom left/right */
 }
 </style>
-</head>
-<body>
 
-    <input type="radio" name="args" value="on">History
-    <br>
-    <input type="radio" name="args" value="on">Temperature
-    <br>
-    <input type="radio" name="args" value="on">Humidity
-    <br>
-    <input type="radio" name="args" value="on">Weather
-    <br>
-    <input type="radio" name="args" value="on">Next watering time
-    <br>
+
+<center>
+<img src='http://www.usewaterwisely.com/images/waterWizard-base.png'>
+<h1>Water Wizard</h1>
+</center>
+
+<h3>Next watering time: 7:00 pm (in 3 hours)</h3>
+
+<h3>Set watering time blocks</h3>
+<button>Add new </button>
+
+<h3>Temperature Sensor: 76&deg;F</h3>
+<h3>Humidity: 99%</h3>
+
+<h3>Weather: 75&deg;F</h3>
+Tomorrow: 74&deg;F, Rain
+    
+<form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
+  <h3>Manual Control</h3>
     <input type="radio" name="args" value="on">Open
     <br>
     <input type="radio" name="args" value="off">Close
@@ -37,6 +34,19 @@ body {
     <br>
     <input type="submit" value="Go!">
   </form>
-  </center>
-  </body>
+  
+  <h3>Water History:</h3>
+  <ul>
+    <li>Watered for 1 minute at 7:00pm yesterday</li>
+    <li>Watered for 1 minute at 7:00pm Thursday 9/10/15</li>
+    <a href>More...</a>
+    <br>[Visualization?]
+  </ul>
+  
+  <h3>Temperature History:</h3>
+
+  <h3>Humidity History:</h3>
+  
+  <h3>Combined Graph</h3>
+
 </html>
