@@ -1,17 +1,14 @@
 <!doctype html>
 <html lang="en">
-<<<<<<< Updated upstream
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
-=======
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js'> </script>
 
-<script src='http://cdnjs.com/libraries/moment.js/'> </script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js'> </script>
 
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'> </script>
 
->>>>>>> Stashed changes
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -35,33 +32,6 @@ body {
 
 <h3>Set watering time blocks</h3>
 <button>Add new </button>
-<<<<<<< Updated upstream
-<table>
-  <tr>
-    <td>Time</td>
-    <td>Days</td>
-  </tr>
-  <tr>
-    <td><input type="text" class="needs-timepick" value=""></td>
-    <td>
-      <input type="checkbox" value="Sunday">S
-      <input type="checkbox" value="Monday">M
-      <input type="checkbox" value="Tuesday">T
-      <input type="checkbox" value="Wednesday">W
-      <input type="checkbox" value="Thursday">Th
-      <input type="checkbox" value="Friday">F
-      <input type="checkbox" value="Saturday">Sa
-    </td>
-  </tr>
-</table>
-
-<br><br>
-Temperature Sensor: <span id="temp"></span>
-<br>
-Humidity: <span id="humidity"></span>
-<br>
-Timestamp: <span id="tstamp"></span>
-=======
 <div class="container">
     <div class="row">
         <div class='col-sm-6'>
@@ -94,9 +64,8 @@ Timestamp: <span id="tstamp"></span>
 <h3>Temperature Sensor: </h3>
 
 <h3>Humidity: </h3>
->>>>>>> Stashed changes
 
-<h3>Weather: 75&deg;F</h3> 
+<h3>Weather: 75&deg;F</h3>
 Tomorrow: 74&deg;F, Rain
 
 <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
@@ -122,37 +91,6 @@ Tomorrow: 74&deg;F, Rain
 
   <h3>Humidity History:</h3>
 
-<<<<<<< Updated upstream
-  <script type="text/javascript">
-    document.getElementById("temp").innerHTML = "Waiting for data...";
-    document.getElementById("humidity").innerHTML = "Waiting for data...";
-    document.getElementById("tstamp").innerHTML ="Waiting for data...";
-    //function start(objButton) {
-      window.setInterval(function() {
-
-        
-        var deviceID = "54ff6a066672524819361267";
-        var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
-        var varName1 = "temperature";
-        var varName2 = "humidity";
-
-        requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
-        $.getJSON(requestURL, function(json) {
-                 document.getElementById("temp").innerHTML = json.result + "&deg; F";
-                 });
-        requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
-        $.getJSON(requestURL2, function(json) {
-                 document.getElementById("humidity").innerHTML = json.result + "% Humidity";
-                 document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
-                 });
-      }, 6000);
-    //}
-    </script>
-
-  </body>
-  </html>
-=======
   <h3>Combined Graph</h3>
 </body>
 </html>
->>>>>>> Stashed changes
