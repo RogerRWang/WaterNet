@@ -1,6 +1,17 @@
 <!doctype html>
 <html lang="en">
+<<<<<<< Updated upstream
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+=======
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js'> </script>
+
+<script src='http://cdnjs.com/libraries/moment.js/'> </script>
+
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'> </script>
+
+>>>>>>> Stashed changes
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -18,12 +29,13 @@ body {
 
 <h3>Watering Profile</h3>
 <select>
-  <option value="volvo">Water the plants</option>
-  <option value="saab">Feed the dog</option>
+  <option value="plants">Water the plants</option>
+  <option value="dog">Feed the dog</option>
 </select>
 
 <h3>Set watering time blocks</h3>
 <button>Add new </button>
+<<<<<<< Updated upstream
 <table>
   <tr>
     <td>Time</td>
@@ -49,6 +61,40 @@ Temperature Sensor: <span id="temp"></span>
 Humidity: <span id="humidity"></span>
 <br>
 Timestamp: <span id="tstamp"></span>
+=======
+<div class="container">
+    <div class="row">
+        <div class='col-sm-6'>
+            <div class="form-group">
+                <div class='input-group date' id='datetimepicker3'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker3').datetimepicker({
+                    format: 'LT'
+                });
+            });
+        </script>
+    </div>
+</div>
+
+<table>
+  <tr>
+    <td><input type="text" name="FirstName" value=""></td>
+    <td></td>
+  </tr>
+</table>
+
+<h3>Temperature Sensor: </h3>
+
+<h3>Humidity: </h3>
+>>>>>>> Stashed changes
 
 <h3>Weather: 75&deg;F</h3> 
 Tomorrow: 74&deg;F, Rain
@@ -62,7 +108,7 @@ Tomorrow: 74&deg;F, Rain
     <br>
     <input type="submit" value="Go!">
   </form>
-  
+
   <h3>Water Used: 20 L the past week</h3>
   <h3>Water History:</h3>
   <ul>
@@ -71,13 +117,12 @@ Tomorrow: 74&deg;F, Rain
     <a href>More...</a>
     <br>[Visualization?]
   </ul>
-  
+
   <h3>Temperature History:</h3>
 
   <h3>Humidity History:</h3>
-  
-  <h3>Combined Graph</h3>
 
+<<<<<<< Updated upstream
   <script type="text/javascript">
     document.getElementById("temp").innerHTML = "Waiting for data...";
     document.getElementById("humidity").innerHTML = "Waiting for data...";
@@ -106,3 +151,8 @@ Tomorrow: 74&deg;F, Rain
 
   </body>
   </html>
+=======
+  <h3>Combined Graph</h3>
+</body>
+</html>
+>>>>>>> Stashed changes
