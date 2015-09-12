@@ -3,6 +3,9 @@ from firebase_token_generator import create_token
 import threading
 from math import *
 import datetime
+import time
+import requests
+import urllib2 import Request, urlopen, URLError
 
 def timerLoop(prevMinute):
 	curr_sched = f.get('curr_sched')
@@ -38,15 +41,32 @@ def timerLoop(prevMinute):
 							t = Thread(target = freqOn, args=(duration_on, block["frequency"]["every_min"], block["frequency"]["repeat_length_min"]))
 
 def oneTimeOn(duration):
-
+	payload = "on"
+	r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+	time.sleep(duration)
+	payload = "off"
+	r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+ 
 
 def freqOn (duration, min_repeat, repeatLength_min):
+	first_sec = time.clock()
+	while (time.clock() < first_sec + 60* repeatLength_min):
+		payload = "on"
+		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+		time.sleep(duration)
+		payload = "off"
+		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+ 		time.sleep(min_repeat*60 - duration)
 
+def weatherGet():
 
-
+	
 auth_payload = { "uid": "uniqueId1", "auth_data": "foo", "other_auth_data": "bar" }
 token = create_token("1yh4UVShYCta7gulWb7WZRQFgKldrPVrWny65nRk", auth_payload)
 
 
 f = Firebase('https://mhacks6.firebaseio.com')
 
+while(True):
+	running = Thread(target = timerLoop, args=(-1,))
+	weatherT = Thread(target = weatherGet, args = (,))
