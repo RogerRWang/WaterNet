@@ -93,7 +93,7 @@ Tomorrow: 74&deg;F, Rain
 
         requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
         $.getJSON(requestURL, function(json) {
-                 document.getElementById("temp").innerHTML = json.result + "&deg; C";
+                 document.getElementById("temp").innerHTML = json.result + "&deg; F";
                  });
         requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
         $.getJSON(requestURL2, function(json) {
