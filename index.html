@@ -137,6 +137,7 @@ Tomorrow: 74&deg;F, Rain
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
+  var IPAddressRef = myFirebaseRef.child("curr_IP");
   
   updateSensorData();
 
@@ -151,6 +152,7 @@ Tomorrow: 74&deg;F, Rain
       var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
       var varName1 = "temperature";
       var varName2 = "humidity";
+      var varName3 = "ipAddress";
 
       requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
       $.getJSON(requestURL, function(json) {
@@ -162,6 +164,10 @@ Tomorrow: 74&deg;F, Rain
                document.getElementById("humidity").innerHTML = json.result + "% Humidity";
                humidityRef.set(json.result);
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
+               });
+      requestURL3 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName3 + "/?access_token=" + accessToken;
+      $.getJSON(requestURL3, function(json) {
+               IPAddressRef.set(json.result);
                });
     }, 6000);
   }
