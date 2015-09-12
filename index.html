@@ -1,6 +1,9 @@
 <!doctype html>
 <html lang="en">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<head>
+    <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+</head>
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -117,6 +120,10 @@ Tomorrow: 74&deg;F, Rain
 <script>
   updateSensorData();
 
+    var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
+    var tempRef = myFirebaseRef.child("curr_temp");
+    var humidityRef = myFirebaseRef.child("curr_humidity");
+
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
     document.getElementById("humidity").innerHTML = "Waiting for data...";
@@ -132,10 +139,12 @@ Tomorrow: 74&deg;F, Rain
       requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
       $.getJSON(requestURL, function(json) {
                document.getElementById("temp").innerHTML = json.result + "&deg; F";
+               tempRef.set(json.result);
                });
       requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
       $.getJSON(requestURL2, function(json) {
                document.getElementById("humidity").innerHTML = json.result + "% Humidity";
+               humidityRef.set(json.result);
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                });
     }, 6000);
