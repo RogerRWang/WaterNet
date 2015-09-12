@@ -24,12 +24,22 @@ body {
 
 <h3>Set watering time blocks</h3>
 <button>Add new </button>
-<table>
+<table border="1">
   <tr>
+    <td>Repeat?</td>
     <td>Time</td>
     <td>Days</td>
+    <td>Frequency Timer</td>
+    <td>Do not repeat if</td>
+    <td>Flow Duration</td>
+    <td>Modify flow if</td>
+    <td>Date</td>
+    <td></td>
   </tr>
   <tr>
+    <td>
+      <input type="checkbox">
+    </td>
     <td><input type="text" class="needs-timepick" value=""></td>
     <td>
       <input type="checkbox" value="Sunday">S
@@ -40,6 +50,32 @@ body {
       <input type="checkbox" value="Friday">F
       <input type="checkbox" value="Saturday">Sa
     </td>
+    <td>Every <input type="number" style="width:30px">
+      <select>
+        <option value="volvo">hours</option>
+        <option value="saab">minutes</option>
+        <option value="saab">seconds</option>
+      </select> 
+    </td>
+    <td>
+      <input type="checkbox" value="Saturday">Rain within <input type="number" style="width:30px"> day(s)
+      <br>
+      <input type="checkbox" value="Saturday">Hot    
+    </td>
+    <td>
+      <input type="number" style="width:30px">
+      <select>
+        <option value="volvo">sec</option>
+        <option value="saab">min</option>
+        <option value="saab">hrs</option>
+      </select> 
+    </td>
+    <td>
+      <input type="checkbox">Temp over <input type="number" style="width:30px">
+      &deg;F
+    </td>
+    <td></td>
+    <td><a href>x</a></td>
   </tr>
 </table>
 
