@@ -1,19 +1,41 @@
 <!DOCTYPE>
+<!DOCTYPE>
 <html>
   <body>
   <center>
-  <br>
-  <br>
-  <br>
+
+<h1>Smart Water Saver</h1>
   <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
-    Tell your device what to do!<br>
+
+<head>
+<style>
+p.serif {
+    font-family: "Times New Roman", Times, serif;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+</style>
+</head>
+<body>
+
+    <input type="radio" name="args" value="on">History
     <br>
-    <input type="radio" name="args" value="on">Open.
+    <input type="radio" name="args" value="on">Temperature
     <br>
-    <input type="radio" name="args" value="off">Close.
+    <input type="radio" name="args" value="on">Humidity
+    <br>
+    <input type="radio" name="args" value="on">Weather
+    <br>
+    <input type="radio" name="args" value="on">Next watering time
+    <br>
+    <input type="radio" name="args" value="on">Open
+    <br>
+    <input type="radio" name="args" value="off">Close
     <br>
     <br>
-    <input type="submit" value="Do it!">
+    <input type="submit" value="Go!">
   </form>
   </center>
   </body>
