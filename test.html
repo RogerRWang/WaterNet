@@ -6,21 +6,23 @@
     <span id="humidity"></span><br>
     <span id="tstamp"></span><br>
 
-    <button id="connectbutton" onclick="start()">Read Temp</button>
+
+    <!-- <button id="connectbutton" onclick="start()">Read Temp</button> -->
 
     <script type="text/javascript">
+    document.getElementById("temp").innerHTML = "Waiting for data...";
+    document.getElementById("humidity").innerHTML = "Waiting for data...";
+    document.getElementById("tstamp").innerHTML ="";
+    //function start(objButton) {
+      window.setInterval(function() {
 
-    function start(objButton) {
-
-        document.getElementById("temp").innerHTML = "Waiting for data...";
-        document.getElementById("humidity").innerHTML = "Waiting for data...";
-        document.getElementById("tstamp").innerHTML ="";
+        
         var deviceID = "54ff6a066672524819361267";
         var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
-        var varName = "temperature";
+        var varName1 = "temperature";
         var varName2 = "humidity";
 
-        requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName + "/?access_token=" + accessToken;
+        requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
         $.getJSON(requestURL, function(json) {
                  document.getElementById("temp").innerHTML = json.result + "&deg; C";
                  document.getElementById("temp").style.fontSize = "28px";
@@ -31,7 +33,8 @@
                  document.getElementById("humidity").style.fontSize = "28px";
                  document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                  });
-    }
+      }, 6000);
+    //}
     </script>
 </body>
 </html>
