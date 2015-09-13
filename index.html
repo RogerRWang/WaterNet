@@ -383,10 +383,7 @@ h1 {
       "name" : "ProfileToDemo"
     };
 
-  json_formatted = JSON.stringify(jsonTemplate);
-
-
-  json_formatted = JSON.stringify(jsonTemplate);
+  json_formatted = jsonTemplate;//JSON.parse(jsonTemplate);
   console.log(json_formatted);
   profileRef.push(json_formatted);
 
