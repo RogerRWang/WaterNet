@@ -103,19 +103,26 @@ h1 {
 
       <b>Time: </b>
 
-      <br>
-
-          <div class="form-group" style="width: 150px;">
-              <div class='input-group date' id='datetimepicker2'>
+      
+        <div id="times">
+          <div class="form-group one_time" style="width: 150px; display: inline-block; margin-bottom: 0px">
+              <div class='input-group date datetimepicker2'>
                   <input type='text' class="form-control" />
                   <span class="input-group-addon">
                       <span class="glyphicon glyphicon-time"></span>
+
                   </span>
+
+
               </div>
 
-          </div>
 
-                <button class="btn btn-default">+</button>
+          </div>
+               <br> <button class="btn btn-default" id="addTime">+</button>
+
+        </div><!-- times -->
+
+
 
 
         <br><br>
@@ -176,72 +183,14 @@ h1 {
   </div>
 </div>
 
-<table id="schedules" border="1">
-  <tr>
-    <td>Repeat?</td>
-    <td>Time</td>
-    <td>Days</td>
-    <td>Frequency Timer</td>
-    <td>Do not repeat if</td>
-    <td>Flow Duration</td>
-    <td>Modify flow if</td>
-    <td>Date</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>
-      <input type="checkbox">
-    </td>
-    <td><input type="text" class="needs-timepick" value=""></td>
-    <td>
-      <input type="checkbox" value="Sunday">S
-      <input type="checkbox" value="Monday">M
-      <input type="checkbox" value="Tuesday">T
-      <input type="checkbox" value="Wednesday">W
-      <input type="checkbox" value="Thursday">Th
-      <input type="checkbox" value="Friday">F
-      <input type="checkbox" value="Saturday">Sa
-    </td>
-    <td>Every <input type="number" style="width:30px">
-      <select>
-        <option value="volvo">hours</option>
-        <option value="saab">minutes</option>
-        <option value="saab">seconds</option>
-      </select>
-    </td>
-    <td>
-      <input type="checkbox" value="Saturday">Rain within <input type="number" style="width:30px"> day(s)
-      <br>
-      <input type="checkbox" value="Saturday">Hot
-    </td>
-    <td>
-      <input type="number" style="width:30px">
-      <select>
-        <option value="volvo">sec</option>
-        <option value="saab">min</option>
-        <option value="saab">hrs</option>
-      </select>
-    </td>
-    <td>
-      <input type="checkbox">Temp over <input type="number" style="width:30px">
-      &deg;F
-    </td>
-    <td></td>
-    <td><a href>x</a></td>
-  </tr>
-</table>
-
-<br><br>
-Timestamp: <span id="tstamp"></span>
+<br>
 
 <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
   <h3>Manual Control</h3>
     <input type="radio" name="args" value="on">Open
-    <br>
-    <input type="radio" name="args" value="off">Close
-    <br>
-    <br>
-    <input type="submit" value="Go!">
+    &nbsp;    <input type="radio" name="args" value="off">Close &nbsp;
+    <br><br>
+    <input type="submit" class="btn btn-default" value="Go!"><br><br>
   </form>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -249,7 +198,7 @@ Timestamp: <span id="tstamp"></span>
 <script>
   $(function() {
     $('.selectpicker').selectpicker();
-    $('#datetimepicker2').datetimepicker({
+    $('.datetimepicker2').datetimepicker({
            format: 'LT'
     });
 
@@ -270,10 +219,13 @@ Timestamp: <span id="tstamp"></span>
   
   updateSensorData();
 
+  $('#addTime').click(addTime);
+  function addTime() {
+      $('.one_time').last().append('<div class="form-group one_time" style="margin-top: 3px;width: 150px;"><div class="input-group date datetimepicker2"><input type="text" class="form-control" /><span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span></div>');
+  }
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
     document.getElementById("humidity").innerHTML = "Waiting for data...";
-    document.getElementById("tstamp").innerHTML ="Waiting for data...";
 
 
     window.setInterval(function() {
@@ -378,10 +330,10 @@ Timestamp: <span id="tstamp"></span>
           },
           series: [{
              name: 'Temperature',
-             data: [0,0,0,0,0,0,0,0,0,0]
+             data: [1,2,3,4,5,6,7,8,9,10]
          }, {
              name: 'Humidity',
-             data: [0,0,0,0,0,0,0,0,0,0]
+             data: [1,2,3,4,5,6,5,4,3,2]
          }]
      });
  });
