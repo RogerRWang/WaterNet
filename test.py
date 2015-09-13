@@ -1,12 +1,8 @@
 from firebase import Firebase
-
-f = Firebase('https://mhacks6.firebaseio.com')
-<<<<<<< HEAD
-#curr_sched = f.child('curr_sched').get()
-direct = f.child('profiles').child('0').child('blocks').child('0').child('times').child('0')
-direct.remove()
-#print curr_sched
-#print f.child('profiles').child(str(curr_sched)).child('blocks').get()
-=======
-print f.child('profiles').child('0').child('blocks').get()
->>>>>>> e7db469decb47680760a096c9ed535cf6d02957d
+import urllib2, urllib
+url_2 = 'https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859'
+values = dict(args='off')
+data = urllib.urlencode(values)
+req = urllib2.Request(url_2, data)
+rsp = urllib2.urlopen(req)
+content = rsp.read()

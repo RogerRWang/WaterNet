@@ -7,6 +7,8 @@ import time
 import requests
 import json
 from urllib2 import Request, urlopen, URLError
+import urllib2
+import urllib
 import pyowm
 
 def timerLoop():
@@ -70,13 +72,21 @@ def oneTimeOn(duration):
 def freqOn (duration, min_repeat, repeatLength_min):
 	first_sec = time.clock()
 	for num in range(1, int(floor(repeatLength_min/min_repeat))):
-		payload = "on"
 		print "on"
-		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+		url_2 = 'https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859'
+		values = dict(args='on')
+		data = urllib.urlencode(values)
+		req = urllib2.Request(url_2, data)
+		rsp = urllib2.urlopen(req)
+		content = rsp.read()
 		time.sleep(duration)
-		payload = "off"
+
+		values = dict(args='off')
+		data = urllib.urlencode(values)
+		req = urllib2.Request(url_2, data)
+		rsp = urllib2.urlopen(req)
+		content = rsp.read()
 		print "off"
-		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
  		print min_repeat*60-duration
  		time.sleep(min_repeat*60 - duration)
 
