@@ -99,7 +99,8 @@ h1 {
   <br><br>
   <div style="text-align: left;border-radius: 20px;background-color:white; width: 70%; margin: 0 auto; padding: 10px 0;">
     <div style="height: 200px; padding-left: 40px;">
-      Repeat?
+      <b>Repeated Events</b>
+      <b>Single Events</b>
     </div>
   </div>
 </div>
@@ -164,12 +165,12 @@ Timestamp: <span id="tstamp"></span>
 
 <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
   <h3>Manual Control</h3>
-    <input type="radio" name="args" value="on">Open
-    <br>
-    <input type="radio" name="args" value="off">Close
-    <br>
-    <br>
-    <input type="submit" value="Go!">
+    <input type="radio" name="args" value="on"> Open &nbsp;
+    
+    <input type="radio" name="args" value="off"> Close
+    
+    <br><br>
+    <input type="submit" class="btn btn-default" value="Go!"> <br><br>
   </form>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -177,16 +178,20 @@ Timestamp: <span id="tstamp"></span>
 <script>
   $(function() {
     $('.selectpicker').selectpicker();
-  });
-  var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
-  var tempRef = myFirebaseRef.child("curr_temp");
-  var humidityRef = myFirebaseRef.child("curr_humidity");
-  var deviceID = "54ff6a066672524819361267";
-  var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
-  var varName1 = "temperature";
-  var varName2 = "humidity";
+    updateSensorData();
 
-  updateSensorData();
+    var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
+    var tempRef = myFirebaseRef.child("curr_temp");
+    var humidityRef = myFirebaseRef.child("curr_humidity");
+    var schedules = myFirebaseRef.child("profiles");
+    var deviceID = "54ff6a066672524819361267";
+    var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
+    var varName1 = "temperature";
+    var varName2 = "humidity";
+
+    console.log(schedules);
+  });
+
 
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
