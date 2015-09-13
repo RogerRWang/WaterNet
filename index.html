@@ -81,6 +81,9 @@ h1 {
   <div style="position:absolute; top:0;left:0; background-color:white; width:100%; height:50px;z-index: 10;">
   </div>
 </div>
+<hr>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
 <div style="background-color:#99CCFF; padding-bottom: 30px">
   <h1>Watering Times</h1>
   <b>Profile</b> &nbsp;
@@ -97,30 +100,47 @@ h1 {
   <a href>Edit Name</a> |
   <a href>Delete</a>
   <br><br>
-  <div style="text-align: left;border-radius: 20px;background-color:white; width: 70%; margin: 0 auto; padding: 10px 0;">
+  <div style="text-align: left;border-radius: 17px;background-color:white; width: 80%; margin: 0 auto; padding: 20px 0;">
 <div style="padding-left: 40px;">
       <h4><b>New Repeated Event</b></h4><br>
+      <div class="btn-toolbar" role="toolbar" aria-label="...">
+    <div class="btn-group btn btn-default active" role="group" id="time_btn" aria-label="...">By Time of Day</div>
+    <div class="btn-group btn btn-default" role="group" id="freq_btn" aria-label="...">By Frequency</div>
+  </div>
 
-      <b>Time: </b>
+        <br>
+          <div id="times">
+                      <b>Time: </b><br>
 
-      
-        <div id="times">
-          <div class="form-group one_time" style="width: 150px; display: inline-block; margin-bottom: 0px">
-              <div class='input-group date datetimepicker2'>
-                  <input type='text' class="form-control" />
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-time"></span>
+            <div class="form-group one_time" style="width: 150px; display: inline-block; margin-bottom: 0px">
+                <div class='input-group date datetimepicker2'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-time"></span>
 
-                  </span>
-
-
-              </div>
+                    </span>
 
 
-          </div>
-               <br> <button class="btn btn-default" id="addTime">+</button>
+                </div>
 
-        </div><!-- times -->
+
+            </div>
+                 <br> <button class="btn btn-default" id="addTime">+</button>
+
+             </div><!-- times -->
+
+             <div id="frequency">
+             <input type="text" id="dur_sec" class="form-control" style="width:70px; display:inline;" value="0.25">
+                <b>Every minute</b> 
+                        
+                          <br>
+                          <input type="text" id="dur_sec" class="form-control" style="width:70px; display:inline;" value="120">
+                <b>Minute Repeat Length</b> 
+                        
+
+
+             </div><!-- frequency -->
+        </input>
 
 
 
@@ -157,7 +177,7 @@ h1 {
 
       <div class="form-group" style="width: 300px;">
               <div class='input-group date datetimepicker3'>
-                  <input type='text' class="form-control" />
+                  <input type='text' class="form-control" id="start_dt"/>
                   <span class="input-group-addon">
                       <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -167,7 +187,7 @@ h1 {
 
 <div class="form-group" style="width: 300px;">
               <div class='input-group date datetimepicker3'>
-                  <input type='text' class="form-control" />
+                  <input type='text' class="form-control" id="stop_dt" />
                   <span class="input-group-addon">
                       <span class="glyphicon glyphicon-calendar"></span>
                   </span>
@@ -182,18 +202,17 @@ h1 {
     </div>
   </div>
 </div>
-
+<!-- 
 <br>
 
 <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
   <h3>Manual Control</h3>
-    <input type="radio" name="args" value="on">Open
-    &nbsp;    <input type="radio" name="args" value="off">Close &nbsp;
+    <input type="radio" name="args" value="on"> Open
+    &nbsp;    <input type="radio" name="args" value="off"> Close &nbsp;
     <br><br>
     <input type="submit" class="btn btn-default" value="Go!"><br><br>
-  </form>
+  </form> -->
 
-<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <script>
   $(function() {
@@ -221,10 +240,22 @@ h1 {
   var graphData2 = [];
   
   updateSensorData();
+    $('#frequency').hide();
 
   $('#addTime').click(addTime);
   $('#save').click(submit);
-
+  $('#freq_btn').click(function() {
+    $('#time_btn').removeClass('active');
+    $('#freq_btn').addClass('active');
+    $('#times').hide();
+    $('#frequency').show();
+  });   
+  $('#time_btn').click(function() {
+    $('#time_btn').addClass('active');
+    $('#freq_btn').removeClass('active');
+    $('#frequency').hide();
+    $('#times').show();
+  });
   function addTime() {
       $('.one_time').last().append('<div class="form-group one_time" style="margin-top: 3px;width: 150px;"><div class="input-group date datetimepicker2"><input type="text" class="form-control" /><span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span></div>');
       $('.datetimepicker2').datetimepicker({
@@ -275,6 +306,9 @@ h1 {
     skip_rain = $('#rain').is(":checked");
     skip_hot = $('#hot').is(":checked");
     
+    start_dt_string = $('#start_dt').val();
+    stop_dt_string = $('#stop_dt').val();
+
   }
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
@@ -381,10 +415,10 @@ h1 {
           },
           series: [{
              name: 'Temperature',
-             data: [1,2,3,4,5,6,7,8,9,10]
+             data: [0,0,0,0,0,0,0,0,0,0]
          }, {
              name: 'Humidity',
-             data: [1,2,3,4,5,6,5,4,3,2]
+             data: [0,0,0,0,0,0,0,0,0,0]
          }]
      });
  });
