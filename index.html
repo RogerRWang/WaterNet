@@ -72,14 +72,27 @@ h1 {
 
 <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat=42.2828&lon=-83.7347&name=University of Michigan"> </iframe>
 
-<h3>Watering Profile</h3>
-<select>
-  <option value="volvo">Water the plants</option>
-  <option value="saab">Feed the dog</option>
-</select>
-<button>New Profile</button><button>Delete Profile</button>
-<h3>Set watering time blocks</h3>
-<button>Add new </button>
+
+<div style="height:400px; background-color:#99CCFF">
+  <h1>Watering Times</h1>
+
+  <select class="selectpicker">
+    <optgroup>
+      <option>Water the plants</option>
+      <option>Give water to the dog</option>
+    </optgroup>
+    <optgroup>
+      <option>New Profile...</option>
+    </optgroup>
+  </select>
+  <br><br>
+  <a href>Edit Name</a> |
+  <a href>Delete</a>
+
+  <br><br>
+  <h3>New</h3>
+</div>
+
 <table id="schedules" border="1">
   <tr>
     <td>Repeat?</td>
