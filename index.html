@@ -284,7 +284,6 @@ h1 {
 
   $('#addTime').click(addTime);
   $('#save').click(submit);
-
     
   $('#freq_btn').click(function() {
     $('#time_btn').removeClass('active');
@@ -299,18 +298,26 @@ h1 {
     $('#times').show();
   });
 
+my_counter = 0;
          
   function getProfileNames() {
 
     myFirebaseRef.child("profiles").on("child_added", function(snapshot) {
       console.log("getting profile names! value received " + snapshot.val().name);
-              $("#profile_list").append("<input type='radio'> " + snapshot.val().name + " <br>");
+              $("#profile_list").append("<input name='profile' type='radio' value='" + my_counter + "'> " + snapshot.val().name + " ");
+                    my_counter++;
+
                 profile_arr.push(snapshot.val());
+
+                $('input[type=radio][name=profile]').change(function() {
+        console.log('Setting profile number to ' + this.value);
+        myFirebaseRef.child('curr_sched').push(parseInt(this.value));
+    });
     });
   }
   function setActiveProfile() {
                 console.log('set active profile');
-  myFirebaseRef.child("curr_sched").on("value", function(snapshot) {
+  myFirebaseRef.child("curr_sched").once("value", function(snapshot) {
           profile_index = parseInt(snapshot.val());
                            getProfileNames();
                           showProfileTable();
