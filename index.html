@@ -274,14 +274,30 @@ h1 {
     $('#frequency').hide();
     $('#times').show();
   });
+
+        profile_arr = [];
+        profile_index = 0;
   function getProfileNames() {
-      profile_arr = [];
 
     myFirebaseRef.child("profiles").on("child_added", function(snapshot) {
               $("#profile_list").append("<input type='radio'> " + snapshot.val().name + " <br>");
-
+                profile_arr.push(snapshot.val());
+          setActiveProfile();
     });
   }
+  function setActiveProfile() {
+    myFirebaseRef.child("curr_sched").on("child_added", function(snapshot) {
+        profile_index = parseInt(snapshot.val());
+        showProfileTable();
+    });
+
+    //TODO Make the radio buttons update the firebase
+  }
+  function showProfileTable() {
+      //TODO Display table of current active profile
+      
+  }
+
   function addTime() {
       $('.one_time').last().append('<div class="form-group one_time" style="margin-top: 3px;width: 150px;"><div class="input-group date datetimepicker2"><input type="text" class="form-control" /><span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span></div>');
       $('.datetimepicker2').datetimepicker({
@@ -378,7 +394,7 @@ h1 {
         humidityHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
           myHumidities = [];
           snapshot2.forEach(function(data) {
-            myHumidities.push(Number((data.val()).toFixed(1)));
+            myHumidities.push(data.val());
           });
         });
       });
@@ -393,7 +409,7 @@ h1 {
         tempHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
           myTemps = [];
           snapshot2.forEach(function(data) {
-            myTemps.push(Number((data.val()).toFixed(1)));
+            myTemps.push(data.val());
           });
         });
       });
