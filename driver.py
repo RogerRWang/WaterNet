@@ -22,36 +22,42 @@ def timerLoop():
 
 	blocks_path = curr_profile_path.child('blocks')
 	blocks = blocks_path.get()
-	for index, block in enumerate(blocks):
-		if block["start_stop_posix"][1] < time.mktime(currTime.timetuple()):
-			blocks_path.child(str(index)).delete()
-		elif dOfWeek in block["days"] and not (block["start_stop_posix"][0] > time.mktime(currTime.timetuple())):
-			times = block["times"]
-			
-			for eachTime in times:
+	if blocks:
+		for index, block in enumerate(blocks):
+			if block["start_stop_posix"][1] < time.mktime(currTime.timetuple()):
+				array1 = blocks[:index]
+				if (len(blocks) > 1):
+					array2 = blocks[index+1 :]
+					blocks_path.set(array1 + array2)
+				else:
+					blocks_path.set(array1)
+
+			elif dOfWeek in block["days"] and not (block["start_stop_posix"][0] > time.mktime(currTime.timetuple())):
+				times = block["times"]
 				
-				hour = int(eachTime[0:2])
-				minute = int(eachTime[2:4])
-				if True: #hour == currHour and minute == currMinute:
-					curr_temp = f.child('curr_temp').get()
-					curr_humidity = f.child('curr_humidity').get()
-					duration_on = block["duration"]["time_sec"]
-					#(hot, rain) = weatherGet()
-					if not ((hot and block["dnr-if"]["hot_days"]) or (rain and block["dnr-if"]["rain_days"])):
+				for eachTime in times:
+					
+					hour = int(eachTime[0:2])
+					minute = int(eachTime[2:4])
+					if hour == currHour and minute == currMinute:
+						curr_temp = f.child('curr_temp').get()
+						curr_humidity = f.child('curr_humidity').get()
+						duration_on = block["duration"]["time_sec"]
+						#(hot, rain) = weatherGet()
+						if not ((hot and block["dnr-if"]["hot_days"]) or (rain and block["dnr-if"]["rain_days"])):
 
-						if curr_temp < block["duration"]["temp_range_F"][0]:
-							duration_on = duration_on * (1-block["duration"]["cold_percent"])
-						elif curr_temp > block["duration"]["temp_range_F"][1]:
-							duration_on = duration_on * (1+block["duration"]["hot_percent"])
+							if curr_temp < block["duration"]["temp_range_F"][0]:
+								duration_on = duration_on * (1-block["duration"]["cold_percent"])
+							elif curr_temp > block["duration"]["temp_range_F"][1]:
+								duration_on = duration_on * (1+block["duration"]["hot_percent"])
 
-						if block["frequency"] is None:
-							tnof = Thread(target = oneTimeOn, args=(duration_on,))
-							tnof.start()
-						else:
-							tf = Thread(target = freqOn, args=(duration_on, block["frequency"]["every_min"], block["frequency"]["repeat_length_min"]))
-							tf.start()
+							if block["frequency"] is None:
+								tnof = Thread(target = oneTimeOn, args=(duration_on,))
+								tnof.start()
+							else:
+								tf = Thread(target = freqOn, args=(duration_on, block["frequency"]["every_min"], block["frequency"]["repeat_length_min"]))
+								tf.start()
 
-	print "hi"
 	time.sleep(60)
 
 def oneTimeOn(duration):
