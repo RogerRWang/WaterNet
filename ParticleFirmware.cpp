@@ -1,7 +1,7 @@
 // This #include statement was automatically added by the Particle IDE.
 #include "Adafruit_DHT/Adafruit_DHT.h"
 #define DHTPIN 2     // what pin we're connected to
-#define DHTTYPE DHT22		// DHT 22 (AM2302)
+#define DHTTYPE DHT22   // DHT 22 (AM2302)
 
 // Connect pin 1 (on the left) of the sensor to +5V
 // Connect pin 2 of the sensor to whatever your DHTPIN is
@@ -28,11 +28,15 @@ double tempFDouble = 0;
 double humidityDouble = 0;
 // Last time, we only needed to declare pins in the setup function.
 // This time, we are also going to register our Spark function
+char myIpString[24];
 
 void setup()
 {
    dht.begin();
    
+   IPAddress myIp = WiFi.localIP();
+   sprintf(myIpString, "%d.%d.%d.%d", myIp[0], myIp[1], myIp[2], myIp[3]);
+   Spark.variable("ipAddress", myIpString, STRING);
    Spark.variable("temperature",&tempFDouble,DOUBLE);
    Spark.variable("humidity",&humidityDouble,DOUBLE);
    // Here's the pin configuration, same as last time
@@ -58,24 +62,24 @@ void loop()
 {
    // Nothing to do here
    // Wait a few seconds between measurements.
-	delay(2000);
+  delay(2000);
 // Reading temperature or humidity takes about 250 milliseconds!
 // Sensor readings may also be up to 2 seconds 'old' (its a 
 // very slow sensor)
-	 humidity = dht.getHumidity();
-	 humidityDouble = humidity;
+   humidity = dht.getHumidity();
+   humidityDouble = humidity;
 // Read temperature as Celsius
-	 tempC = dht.getTempCelcius();
-	 
+   tempC = dht.getTempCelcius();
+   
 // Read temperature as Farenheit
-	 tempF = dht.getTempFarenheit();
-	 tempFDouble = tempF;
+   tempF = dht.getTempFarenheit();
+   tempFDouble = tempF;
   
 // Check if any reads failed and exit early (to try again).
-	if (isnan(humidity) || isnan(tempC) || isnan(tempF)) {
-		Serial.println("Failed to read from DHT sensor!");
-		return;
-	}
+  if (isnan(humidity) || isnan(tempC) || isnan(tempF)) {
+    Serial.println("Failed to read from DHT sensor!");
+    return;
+  }
 }
 
 // We're going to have a super cool function now that gets called when a matching API request is sent
