@@ -98,13 +98,12 @@ h1 {
   <a href>Delete</a>
   <br><br>
   <div style="text-align: left;border-radius: 20px;background-color:white; width: 70%; margin: 0 auto; padding: 10px 0;">
-    <div style="height: 600px; padding-left: 40px;">
-      <b>New Repeated Event</b><br><br>
+<div style="padding-left: 40px;">
+      <h4><b>New Repeated Event</b></h4><br>
 
       <b>Time: </b>
-      <button class="btn btn-default">+</button>
 
-      <br><br>
+      <br>
 
           <div class="form-group" style="width: 150px;">
               <div class='input-group date' id='datetimepicker2'>
@@ -114,25 +113,65 @@ h1 {
                   </span>
               </div>
 
-    </div>
+          </div>
+
+                <button class="btn btn-default">+</button>
 
 
+        <br><br>
+        <b>Flow Duration:</b><br>
+
+        <input type="text" class="form-control" style="width:50px; display:inline;" value="2">
+          <select class="selectpicker">
+            <option value="volvo">seconds</option>
+            <option value="saab">minutes</option>
+            <option value="saab">hours</option>
+          </select>
+
+          <br><br>
       <b>Days of the Week: </b> <br>
 
-      <input type="checkbox" value="Sunday"> S 
-      <input type="checkbox" value="Monday"> M 
-      <input type="checkbox" value="Tuesday"> T 
-      <input type="checkbox" value="Wednesday"> W 
-      <input type="checkbox" value="Thursday"> Th 
-      <input type="checkbox" value="Friday"> F 
-      <input type="checkbox" value="Saturday"> Sa 
+      <input type="checkbox" checked> S 
+      <input type="checkbox" checked> M 
+      <input type="checkbox" checked> T 
+      <input type="checkbox" checked> W 
+      <input type="checkbox" checked> Th 
+      <input type="checkbox" checked> F 
+      <input type="checkbox" checked> Sa 
       <br><br>
 
       <b>Run if it will rain in the next 2 days? </b> <input type="checkbox" checked><br><br>
       <b>If the weather will get really hot in the next day, still water? <input type="checkbox" checked>
       <br><br>
-      <button class="btn btn-primary">Save</button>
 
+      <h4><b>Optional</b></h4>
+      
+      <b>Start Date/Time</b> <br>
+
+      <div class="form-group" style="width: 300px;">
+              <div class='input-group date' id='datetimepicker3'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+              </div>
+
+      <b>Stop Date/Time</b> <br>
+
+<div class="form-group" style="width: 300px;">
+              <div class='input-group date' id='datetimepicker3'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                        
+
+              </div>
+              <br><br>
+              <button class="btn btn-primary">Save</button>&nbsp;
+              <button class="btn btn-default">Clear</button>
+      </div>
+      </div>
     </div>
   </div>
 </div>
