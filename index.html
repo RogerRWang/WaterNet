@@ -98,8 +98,41 @@ h1 {
   <a href>Delete</a>
   <br><br>
   <div style="text-align: left;border-radius: 20px;background-color:white; width: 70%; margin: 0 auto; padding: 10px 0;">
-    <div style="height: 200px; padding-left: 40px;">
-      Repeat?
+    <div style="height: 600px; padding-left: 40px;">
+      <b>New Repeated Event</b><br><br>
+
+      <b>Time: </b>
+      <button class="btn btn-default">+</button>
+
+      <br><br>
+
+          <div class="form-group" style="width: 150px;">
+              <div class='input-group date' id='datetimepicker2'>
+                  <input type='text' class="form-control" />
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-time"></span>
+                  </span>
+              </div>
+
+    </div>
+
+
+      <b>Days of the Week: </b> <br>
+
+      <input type="checkbox" value="Sunday"> S 
+      <input type="checkbox" value="Monday"> M 
+      <input type="checkbox" value="Tuesday"> T 
+      <input type="checkbox" value="Wednesday"> W 
+      <input type="checkbox" value="Thursday"> Th 
+      <input type="checkbox" value="Friday"> F 
+      <input type="checkbox" value="Saturday"> Sa 
+      <br><br>
+
+      <b>Run if it will rain in the next 2 days? </b> <input type="checkbox" checked><br><br>
+      <b>If the weather will get really hot in the next day, still water? <input type="checkbox" checked>
+      <br><br>
+      <button class="btn btn-primary">Save</button>
+
     </div>
   </div>
 </div>
@@ -177,6 +210,10 @@ Timestamp: <span id="tstamp"></span>
 <script>
   $(function() {
     $('.selectpicker').selectpicker();
+    $('#datetimepicker2').datetimepicker({
+           format: 'LT'
+    });
+
   });
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
   var tempRef = myFirebaseRef.child("curr_temp");
