@@ -39,11 +39,10 @@ def timerLoop():
 					
 					hour = int(eachTime[0:2])
 					minute = int(eachTime[2:4])
-					if hour == currHour and minute == currMinute:
+					if True: #hour == currHour and minute == currMinute:
 						curr_temp = f.child('curr_temp').get()
 						curr_humidity = f.child('curr_humidity').get()
 						duration_on = block["duration"]["time_sec"]
-						#(hot, rain) = weatherGet()
 						if not ((hot and block["dnr-if"]["hot_days"]) or (rain and block["dnr-if"]["rain_days"])):
 
 							if curr_temp < block["duration"]["temp_range_F"][0]:
