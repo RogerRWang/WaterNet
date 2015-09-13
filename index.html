@@ -47,7 +47,7 @@ h1 {
       </div>
     </div>
   </div>
-  
+
   <div style="width:50%; height: 150px; float:left">
     <div class="panel panel-default" style="height:100%; margin:10px 10px 10px 5px;">
       <div class="panel-body">
@@ -55,12 +55,15 @@ h1 {
       </div>
     </div>
   </div>
-  
+
 </div>
 
 <div style="height:70px;">
-  
+
 </div>
+
+<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat=42.2828&lon=-83.7347&name=University of Michigan"> </iframe>
+
 <h3>Watering Profile</h3>
 <select>
   <option value="volvo">Water the plants</option>
@@ -100,12 +103,12 @@ h1 {
         <option value="volvo">hours</option>
         <option value="saab">minutes</option>
         <option value="saab">seconds</option>
-      </select> 
+      </select>
     </td>
     <td>
       <input type="checkbox" value="Saturday">Rain within <input type="number" style="width:30px"> day(s)
       <br>
-      <input type="checkbox" value="Saturday">Hot    
+      <input type="checkbox" value="Saturday">Hot
     </td>
     <td>
       <input type="number" style="width:30px">
@@ -113,7 +116,7 @@ h1 {
         <option value="volvo">sec</option>
         <option value="saab">min</option>
         <option value="saab">hrs</option>
-      </select> 
+      </select>
     </td>
     <td>
       <input type="checkbox">Temp over <input type="number" style="width:30px">
@@ -131,7 +134,7 @@ Humidity: <span id="humidity"></span>
 <br>
 Timestamp: <span id="tstamp"></span>
 
-<h3>Weather: 75&deg;F</h3> 
+<h3>Weather: 75&deg;F</h3>
 Tomorrow: 74&deg;F, Rain
 
 <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
@@ -143,7 +146,7 @@ Tomorrow: 74&deg;F, Rain
     <br>
     <input type="submit" value="Go!">
   </form>
-  
+
   <h3>Water Used: 20 L the past week</h3>
   <h3>Water History:</h3>
   <ul>
@@ -152,27 +155,27 @@ Tomorrow: 74&deg;F, Rain
     <a href>More...</a>
     <br>[Visualization?]
   </ul>
-  
+
   <h3>Temperature History:</h3>
 
   <h3>Humidity History:</h3>
-  
+
   <h3>Combined Graph</h3>
 
 <script>
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
-  
+
   updateSensorData();
 
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
     document.getElementById("humidity").innerHTML = "Waiting for data...";
     document.getElementById("tstamp").innerHTML ="Waiting for data...";
-    
+
     window.setInterval(function() {
-      
+
       var deviceID = "54ff6a066672524819361267";
       var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
       var varName1 = "temperature";
