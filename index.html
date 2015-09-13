@@ -102,7 +102,7 @@ h1 {
   <a href>Delete</a>
   <br><br>
 
-<table class="table">
+<table id="schedules" class="table">
     <tr>
         <th>Time/Frequency</th>
         <th>Flow Duration</th>
@@ -258,6 +258,8 @@ h1 {
     $('.datetimepicker3').datetimepicker({
            //format: 'LT'
     });
+    setActiveProfile();
+
   });
 
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
@@ -274,13 +276,16 @@ h1 {
   var graphData = [];
   var graphData2 = [];
   
+  profile_arr = [];
+  profile_index = 0;
+
   updateSensorData();
     $('#frequency').hide();
 
   $('#addTime').click(addTime);
   $('#save').click(submit);
 
-    getProfileNames();
+    
   $('#freq_btn').click(function() {
     $('#time_btn').removeClass('active');
     $('#freq_btn').addClass('active');
@@ -294,26 +299,39 @@ h1 {
     $('#times').show();
   });
 
-        profile_arr = [];
-        profile_index = 0;
+         
   function getProfileNames() {
 
     myFirebaseRef.child("profiles").on("child_added", function(snapshot) {
+      console.log("getting profile names! value received " + snapshot.val().name);
               $("#profile_list").append("<input type='radio'> " + snapshot.val().name + " <br>");
                 profile_arr.push(snapshot.val());
-          setActiveProfile();
     });
   }
   function setActiveProfile() {
-    myFirebaseRef.child("curr_sched").on("child_added", function(snapshot) {
-        profile_index = parseInt(snapshot.val());
-        showProfileTable();
+                console.log('set active profile');
+  myFirebaseRef.child("curr_sched").on("value", function(snapshot) {
+          profile_index = parseInt(snapshot.val());
+                           getProfileNames();
+                          showProfileTable();
+      
     });
+
 
     //TODO Make the radio buttons update the firebase
   }
   function showProfileTable() {
+    console.log("index is " + profile_index);
       //TODO Display table of current active profile
+      var a = profile_arr[profile_index];
+          console.log("SHow profile table "+ profile_index + " profile_arr " + JSON.stringify(profile_arr, 4));
+      //var blocks = a["blocks"];
+      //for(var i=0; i<blocks.length; i++) {
+      //  var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
+      //  console.log(temp_range);
+      $('#schedules tr:last').after("<tr><td>Freq here</td><td>Flow duration</td><td>Week Days</td><td></td><td>Rain?</td><td>Hot?</td><td>Start time</td><td>End time</td><td></td><td>Temp range</td><td>Duration adjustment</td></tr>");
+      //}
+      
       
   }
 
