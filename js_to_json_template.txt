@@ -1,25 +1,25 @@
-jsonTemplate = '{
+jsonTemplate = {
     "blocks" : [ {
-      "days" : [ '+ days_list +'],
+      "days" : days_list,
       "dnr_if" : {
-        "hot_days" : '+hot_days+',
-        "rain_days" : '+rain_days+'
+        "hot_days" : hot_days,
+        "rain_days" : rain_days
       },
       "duration" : {
-        "cold_percent" :' +cold_percent+',
-        "hot_percent" : '+hot_percent+',
-        "temp_range_F" : [ '+min_temp+', '+max_temp+' ],
-        "time_sec" : 2
+        "cold_percent" : cold_percent,
+        "hot_percent" : hot_percent,
+        "temp_range_F" : [ min_temp, max_temp ],
+        "time_sec" : time_sec
       },
       "frequency" : {
-        "every_min" : ' + every_min + ',
-        "repeat_length_min" : ' + repeat_length_min + '20
+        "every_min" : every_min,
+        "repeat_length_min" : repeat_length_min
       },
-      "repeat" : ' + repeat+ ',
-      "start_stop_posix" : [ '+pos_start+ ', ' + pos_end + ' ],
-      "times" : [' + times_list + ' ]
+      "repeat" : repeat,
+      "start_stop_posix" : [ pos_start, pos_end ],
+      "times" : times_list
     } ],
-    "name" : "' + name + '"
-}';
+    "name" : name
+};
 
 json_formatted = JSON.stringify(jsonTemplate);
