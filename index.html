@@ -182,13 +182,15 @@ Timestamp: <span id="tstamp"></span>
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
   var tempHistRef = myFirebaseRef.child("tempHist");
-  var humidityHistRef = myFirebaseRef.child("humidityHist");
+  var humidityHistRef = myFirebaseRef.child("humidityRef");
   var deviceID = "54ff6a066672524819361267";
   var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
   var varName1 = "temperature";
   var varName2 = "humidity";
   var myTemps = [];
   var myHumidities = [];
+  var graphData = [];
+  var graphData2 = [];
 
   updateSensorData();
 
@@ -225,6 +227,7 @@ Timestamp: <span id="tstamp"></span>
           });
         });
       });
+       graphData = myTemps;
       humidityHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
         humidityHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
           myHumidities = [];
@@ -233,6 +236,7 @@ Timestamp: <span id="tstamp"></span>
           });
         });
       });
+      graphData2 = myHumidities;
     }, 6000);
   }
 
@@ -247,6 +251,7 @@ Timestamp: <span id="tstamp"></span>
   }
 
   $(function () {
+    console.log("the graph data" + graphData.toString());
       $('#container').highcharts({
           title: {
               text: 'Temperature & Humidity History',
@@ -284,10 +289,10 @@ Timestamp: <span id="tstamp"></span>
           },
           series: [{
              name: 'Temperature',
-             data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3]
+             data: [graphData]
          }, {
              name: 'Humidity',
-             data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1]
+             data: [0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1]
          }]
      });
  });
