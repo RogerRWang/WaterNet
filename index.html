@@ -215,7 +215,7 @@ Timestamp: <span id="tstamp"></span>
                });
       requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
       $.getJSON(requestURL2, function(json) {
-               document.getElementById("humidity").innerHTML = parseFloat(json.result).toFixed(1) + "% Humidity";
+               document.getElementById("humidity").innerHTML = parseFloat(json.result).toFixed(1) + "%";
                humidityRef.set(json.result);
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                });
