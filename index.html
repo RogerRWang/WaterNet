@@ -35,7 +35,7 @@ h1 {
 </style>
 
 <div style="height:150px; background-color:White; color:Navy">
-  <h1>Water Wizard</h1>
+  <h1>WaterNet Wizard</h1>
 </div>
 
 <div style="height:230px; padding:40px;background-color:Navy; color:white">
@@ -304,7 +304,8 @@ my_counter = 0;
   function getProfileNames() {
 
     myFirebaseRef.child("profiles").on("child_added", function(snapshot) {
-              $("#profile_list").append("<input name='profile' type='radio' value='" + my_counter + "'> " + snapshot.val().name + " ");
+              $("#profile_list").append("<input name='profile' type='radio' value='" + my_counter + "selected '> " + snapshot.val().name + " ");
+
                     my_counter++;
 
                 profile_arr.push(snapshot.val());
@@ -330,19 +331,17 @@ my_counter = 0;
   function updateProfileTable() {
       //TODO Display table of current active profile
       console.log("verify " + JSON.stringify(profile_arr));
-
-      console.log("update continued");
-      var a = profile_arr[profile_index];
-
+      var a = profile_arr["blocks"];
+        console.log(JSON.stringify(a));
       $("#schedules").find("tr:gt(0)").remove();
 
-      console.log(JSON.stringify(a));
+      //console.log(typeof a);
+      //var blocks = a[0];
       //var blocks = a[0]["blocks"];
-      //for(var i=0; i<blocks.length; i++) {
       //  var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
-      //  console.log(temp_range);
-      $('#schedules tr:last').after("<tr><td>Freq here</td><td>Flow duration</td><td>Week Days</td><td></td><td>Rain?</td><td>Hot?</td><td>Start time</td><td>End time</td><td></td><td>Temp range</td><td>Duration adjustment</td></tr>");
-      //}
+       // console.log(temp_range);
+      /*$('#schedules tr:last').after("<tr><td>Freq here</td><td>Flow duration</td><td>Week Days</td><td></td><td>Rain?</td><td>Hot?</td><td>Start time</td><td>End time</td><td></td><td>Temp range</td><td>Duration adjustment</td></tr>");*/
+      $('#schedules tr:last').after("<tr><td>Once evey 15 sec</td><td>2 sec</td><td>SuMTWThFS</td><td></td><td>x</td><td>N</td><td></td><td></td><td></td><td></td><td></td></tr>");
       
       
   }
