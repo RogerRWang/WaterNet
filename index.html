@@ -289,14 +289,28 @@ h1 {
       });
       var s;
       for(var i=0; i<my_arr.length; i++) {
-          //TODO convert the times to format.
+          if (my_arr[i].indexOf("P")>0) {
+            var hours = parseInt(my_arr[i].substring(0,my_arr[i].indexOf(":"))) + 12;
+          }
+          else {
+            var hours = parseInt(my_arr[i].substring(0,my_arr[i].indexOf(":")));
+          }
+          if (hours < 10) {
+            hoursStr = "0" + hours.toString();
+          } else {
+            hoursStr = hours.toString();
+          }
+
+          my_arr[i] = hoursStr + my_arr[i].substring(my_arr[i].indexOf(":")+1, my_arr[i].indexOf(":") + 3);
       }
       return my_arr;
   }
   function submit() {
     is_repeat = true;
     times_arr = null;
-    if($('times').hasClass('active')) {
+    freq_min = 1;
+    min_repeat_length = 10;
+    if($('#time_btn').hasClass('active')) {
           times_arr = getTimesArray();
     }
     else {
@@ -314,19 +328,19 @@ h1 {
 
     days_arr = []
     if($('#sun').is(":checked"))
-      days_arr.push("6");
+      days_arr.push(6);
     if($('#mon').is(":checked"))
-      days_arr.push("0");
+      days_arr.push(0);
     if($('#tue').is(":checked"))
-      days_arr.push("1");
+      days_arr.push(1);
     if($('#wed').is(":checked"))
-      days_arr.push("2");
+      days_arr.push(2);
     if($('#thu').is(":checked"))
-      days_arr.push("3");
+      days_arr.push(3);
     if($('#fri').is(":checked"))
-      days_arr.push("4");
+      days_arr.push(4);
     if($('#sat').is(":checked"))
-      days_arr.push("5");
+      days_arr.push(5);
 
     skip_rain = $('#rain').is(":checked");
     skip_hot = $('#hot').is(":checked");
