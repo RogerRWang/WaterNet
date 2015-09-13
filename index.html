@@ -76,8 +76,8 @@ h1 {
 
 </div>
 <div style="height: 260px;position:relative;margin:30px;" class="panel panel-default">
-  <div style="z-index:11;position:absolute;top:15px;left:50%;transform:translateX(-50%) translateY(-50%);"><b>Weather for University of Michigan</b></div>
-<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat=42.2828&lon=-83.7347&name=University of Michigan" style="padding-left:0px;width:80%"> </iframe>
+  <div style="z-index:11;position:absolute;top:15px;left:50%;transform:translateX(-50%) translateY(-50%);"><b>Weather for University of Michigan</b> (from forecast.io) </div>
+<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat=42.2828&lon=-83.7347&name=University of Michigan" style="padding-left:0px;width:80%"> </iframe>io)
   <div style="position:absolute; top:0;left:0; background-color:white; width:100%; height:50px;z-index: 10;">
   </div>
 </div>
@@ -87,7 +87,8 @@ h1 {
 <div style="background-color:#99CCFF; padding-bottom: 30px">
   <h1>Watering Times</h1>
   <b>Profile</b> &nbsp;
-  <select class="selectpicker">
+  <div id="profile_list"></div>
+  <!-- <select class="selectpicker">
     <optgroup>
       <option>Water the plants</option>
       <option>Give water to the dog</option>
@@ -95,7 +96,7 @@ h1 {
     <optgroup>
       <option>New Profile...</option>
     </optgroup>
-  </select>
+  </select> -->
   <br><br>
   <a href>Edit Name</a> |
   <a href>Delete</a>
@@ -238,10 +239,9 @@ h1 {
     $('.datetimepicker3').datetimepicker({
            //format: 'LT'
     });
-
   });
+
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
-  var profileRef = myFirebaseRef.child("profiles");
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
   var tempHistRef = myFirebaseRef.child("tempHist");
@@ -261,6 +261,7 @@ h1 {
   $('#addTime').click(addTime);
   $('#save').click(submit);
 
+    getProfileNames();
   $('#freq_btn').click(function() {
     $('#time_btn').removeClass('active');
     $('#freq_btn').addClass('active');
@@ -273,6 +274,14 @@ h1 {
     $('#frequency').hide();
     $('#times').show();
   });
+  function getProfileNames() {
+      profile_arr = [];
+
+    myFirebaseRef.child("profiles").on("child_added", function(snapshot) {
+              $("#profile_list").append("<input type='radio'> " + snapshot.val().name + " <br>");
+
+    });
+  }
   function addTime() {
       $('.one_time').last().append('<div class="form-group one_time" style="margin-top: 3px;width: 150px;"><div class="input-group date datetimepicker2"><input type="text" class="form-control" /><span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span></div>');
       $('.datetimepicker2').datetimepicker({
@@ -289,33 +298,19 @@ h1 {
       });
       var s;
       for(var i=0; i<my_arr.length; i++) {
-          if (my_arr[i].indexOf("P")>0) {
-            var hours = parseInt(my_arr[i].substring(0,my_arr[i].indexOf(":"))) + 12;
-          }
-          else {
-            var hours = parseInt(my_arr[i].substring(0,my_arr[i].indexOf(":")));
-          }
-          if (hours < 10) {
-            hoursStr = "0" + hours.toString();
-          } else {
-            hoursStr = hours.toString();
-          }
-
-          my_arr[i] = hoursStr + my_arr[i].substring(my_arr[i].indexOf(":")+1, my_arr[i].indexOf(":") + 3);
+          //TODO convert the times to format.
       }
       return my_arr;
   }
   function submit() {
     is_repeat = true;
     times_arr = null;
-    freq_min = 1;
-    min_repeat_length = 10;
-    if($('#time_btn').hasClass('active')) {
+    if($('#times').hasClass('active')) {
           times_arr = getTimesArray();
     }
     else {
       freq_min = $('#min').val();
-      min_repeat_length = $('#min_repeat').val();
+      min_repeat_length = $('#min_repeat');
     }
 
     dur_sec = $('#dur_sec').val();
@@ -328,67 +323,34 @@ h1 {
 
     days_arr = []
     if($('#sun').is(":checked"))
-      days_arr.push(6);
+      days_arr.push("6");
     if($('#mon').is(":checked"))
-      days_arr.push(0);
+      days_arr.push("0");
     if($('#tue').is(":checked"))
-      days_arr.push(1);
+      days_arr.push("1");
     if($('#wed').is(":checked"))
-      days_arr.push(2);
+      days_arr.push("2");
     if($('#thu').is(":checked"))
-      days_arr.push(3);
+      days_arr.push("3");
     if($('#fri').is(":checked"))
-      days_arr.push(4);
+      days_arr.push("4");
     if($('#sat').is(":checked"))
-      days_arr.push(5);
+      days_arr.push("5");
 
     skip_rain = $('#rain').is(":checked");
     skip_hot = $('#hot').is(":checked");
     
     start_dt_string = $('#start_dt').val();
     stop_dt_string = $('#stop_dt').val();
-    start_posix = 0;
-    stop_posix = 1451606400;
-    if (start_dt_string != null && start_dt_string != "")
-      start_posix = Date.parse(start_dt_string).getTime()/1000;
-    if (stop_dt_string != null && stop_dt_string != "")
-      stop_posix = Date.parse(stop_dt_string).getTime()/1000;
+    start_posix = Date.parse(start_dt_string).getTime()/1000;
+    stop_posix = Date.parse(stop_dt_string).getTime()/1000;
 
     range_low = $('#range_low').val();
     range_high = $('#range_high').val();
 
     cold_per = $('#cold_per').val();
     hot_per = $('#hot_per').val();
-    jsonTemplate = {
-      "blocks" : [ {
-        "days" : days_arr,
-        "dnr_if" : {
-          "hot_days" : skip_hot,
-          "rain_days" : skip_rain
-        },
-        "duration" : {
-          "cold_percent" : cold_per,
-          "hot_percent" : hot_per,
-          "temp_range_F" : [ range_low, range_high ],
-          "time_sec" : dur_sec
-        },
-        "frequency" : {
-          "every_min" : freq_min,
-          "repeat_length_min" : min_repeat_length
-        },
-        "repeat" : is_repeat,
-        "start_stop_posix" : [ start_posix, stop_posix ],
-        "times" : times_arr
-      } ],
-      "name" : "ProfileToDemo"
-    };
-
-  json_formatted = jsonTemplate;//JSON.parse(jsonTemplate);
-  console.log(json_formatted);
-  profileRef.push(json_formatted);
-
   }
-
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
     document.getElementById("humidity").innerHTML = "Waiting for data...";
@@ -421,7 +383,7 @@ h1 {
         });
       });
       graphData2 = myHumidities;
-     // console.log("graphData2: " + graphData2.toString());
+      console.log("graphData2: " + graphData2.toString());
       for(i = 0;i<10;i++)
       {
         chart.series[1].data[i].update(graphData2[i]); 
@@ -436,7 +398,7 @@ h1 {
         });
       });
       graphData = myTemps;
-      //console.log("graphData: " + graphData.toString());
+      console.log("graphData: " + graphData.toString());
       for(i = 0;i<10;i++)
       {
         chart.series[0].data[i].update(graphData[i]);
