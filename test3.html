@@ -4,12 +4,45 @@
 	<script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
 </head>
 <body>
+	<button onclick="push()">Click me</button>
+	<button onclick="push2()">Click me</button>
 	<script>
-		var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
+		var myFirebaseRef = new Firebase("https://ballgame.firebaseio.com/");
 		var tempRef = myFirebaseRef.child("curr_temp");
 		var humidityRef = myFirebaseRef.child("curr_humidity");
-		tempRef.set(75);
-		humidityRef.set(45);
+		var myTemps = [];
+		function push()
+		{
+			tempRef.push(75);
+			humidityRef.push(45);
+			console.log(myTemps.toString());
+			myTemps = [];
+		}
+		function push2()
+		{
+			tempRef.push(35);
+			humidityRef.push(65);
+			console.log(myTemps.toString());
+			myTemps = [];
+		}
+		tempRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
+	        tempRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
+	        	myTemps = [];
+			  	snapshot2.forEach(function(data) {
+			  	myTemps.push(data.val());
+			  });
+
+			});
+			
+
+
+		  //snapshot.forEach(function(data) {
+		  	//myTemps.push(data.val());
+		  	//console.log("The " + data.key() + " dinosaur's score is " + data.val());
+		  //});
+
+		});
+		
 	</script>
 </body>
 </html>

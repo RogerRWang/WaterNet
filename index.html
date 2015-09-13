@@ -181,10 +181,14 @@ Timestamp: <span id="tstamp"></span>
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
+  var tempHistRef = myFirebaseRef.child("tempHist");
+  var humidityHistRef = myFirebaseRef.child("humidityRef");
   var deviceID = "54ff6a066672524819361267";
   var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
   var varName1 = "temperature";
   var varName2 = "humidity";
+  var myTemps = [];
+  var myHumidities = [];
 
   updateSensorData();
 
@@ -200,13 +204,35 @@ Timestamp: <span id="tstamp"></span>
       $.getJSON(requestURL, function(json) {
                document.getElementById("temp").innerHTML = parseFloat(json.result).toFixed(1) + "&deg; F";
                tempRef.set(json.result);
+               tempHistRef.push(json.result);
+               console.log(myTemps.toString());
+               myTemps = [];
                });
       requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
       $.getJSON(requestURL2, function(json) {
                document.getElementById("humidity").innerHTML = parseFloat(json.result).toFixed(1) + "%";
                humidityRef.set(json.result);
+               humidityHistRef.push(json.result);
+               console.log(myHumidities.toString());
+               myHumidities = [];
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                });
+      tempHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
+        tempHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
+          myTemps = [];
+          snapshot2.forEach(function(data) {
+            myTemps.push(data.val());
+          });
+        });
+      });
+      humidityHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
+        humidityHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
+          myHumidities = [];
+          snapshot2.forEach(function(data) {
+            myHumidities.push(data.val());
+          });
+        });
+      });
     }, 6000);
   }
 
