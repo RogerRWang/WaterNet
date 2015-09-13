@@ -99,8 +99,7 @@ h1 {
   <br><br>
   <div style="text-align: left;border-radius: 20px;background-color:white; width: 70%; margin: 0 auto; padding: 10px 0;">
     <div style="height: 200px; padding-left: 40px;">
-      <b>Repeated Events</b>
-      <b>Single Events</b>
+      Repeat?
     </div>
   </div>
 </div>
@@ -165,12 +164,12 @@ Timestamp: <span id="tstamp"></span>
 
 <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
   <h3>Manual Control</h3>
-    <input type="radio" name="args" value="on"> Open &nbsp;
-    
-    <input type="radio" name="args" value="off"> Close
-    
-    <br><br>
-    <input type="submit" class="btn btn-default" value="Go!"> <br><br>
+    <input type="radio" name="args" value="on">Open
+    <br>
+    <input type="radio" name="args" value="off">Close
+    <br>
+    <br>
+    <input type="submit" value="Go!">
   </form>
 
 <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -178,20 +177,22 @@ Timestamp: <span id="tstamp"></span>
 <script>
   $(function() {
     $('.selectpicker').selectpicker();
-    updateSensorData();
-
-    var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
-    var tempRef = myFirebaseRef.child("curr_temp");
-    var humidityRef = myFirebaseRef.child("curr_humidity");
-    var schedules = myFirebaseRef.child("profiles");
-    var deviceID = "54ff6a066672524819361267";
-    var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
-    var varName1 = "temperature";
-    var varName2 = "humidity";
-
-    console.log(schedules);
   });
+  var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
+  var tempRef = myFirebaseRef.child("curr_temp");
+  var humidityRef = myFirebaseRef.child("curr_humidity");
+  var tempHistRef = myFirebaseRef.child("tempHist");
+  var humidityHistRef = myFirebaseRef.child("humidityHist");
+  var deviceID = "54ff6a066672524819361267";
+  var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
+  var varName1 = "temperature";
+  var varName2 = "humidity";
+  var myTemps = [];
+  var myHumidities = [];
+  var graphData = [];
+  var graphData2 = [];
 
+  updateSensorData();
 
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
@@ -205,13 +206,37 @@ Timestamp: <span id="tstamp"></span>
       $.getJSON(requestURL, function(json) {
                document.getElementById("temp").innerHTML = parseFloat(json.result).toFixed(1) + "&deg; F";
                tempRef.set(json.result);
+               tempHistRef.push(json.result);
+               console.log(myTemps.toString());
+               myTemps = [];
                });
       requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
       $.getJSON(requestURL2, function(json) {
                document.getElementById("humidity").innerHTML = parseFloat(json.result).toFixed(1) + "%";
                humidityRef.set(json.result);
+               humidityHistRef.push(json.result);
+               console.log(myHumidities.toString());
+               myHumidities = [];
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                });
+      tempHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
+        tempHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
+          myTemps = [];
+          snapshot2.forEach(function(data) {
+            myTemps.push(data.val());
+          });
+        });
+      });
+       graphData = myTemps;
+      humidityHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
+        humidityHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
+          myHumidities = [];
+          snapshot2.forEach(function(data) {
+            myHumidities.push(data.val());
+          });
+        });
+      });
+      graphData2 = myHumidities;
     }, 6000);
   }
 
@@ -226,6 +251,7 @@ Timestamp: <span id="tstamp"></span>
   }
 
   $(function () {
+    console.log("the graph data" + graphData.toString());
       $('#container').highcharts({
           title: {
               text: 'Temperature & Humidity History',
@@ -263,10 +289,10 @@ Timestamp: <span id="tstamp"></span>
           },
           series: [{
              name: 'Temperature',
-             data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3]
+             data: [graphData]
          }, {
              name: 'Humidity',
-             data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1]
+             data: [0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1]
          }]
      });
  });
