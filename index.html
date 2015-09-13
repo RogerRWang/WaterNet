@@ -241,6 +241,7 @@ h1 {
 
   });
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
+  var profileRef = myFirebaseRef.child("profiles");
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
   var tempHistRef = myFirebaseRef.child("tempHist");
@@ -300,7 +301,7 @@ h1 {
     }
     else {
       freq_min = $('#min').val();
-      min_repeat_length = $('#min_repeat');
+      min_repeat_length = $('#min_repeat').val();
     }
 
     dur_sec = $('#dur_sec').val();
@@ -332,15 +333,51 @@ h1 {
     
     start_dt_string = $('#start_dt').val();
     stop_dt_string = $('#stop_dt').val();
-    start_posix = Date.parse(start_dt_string).getTime()/1000;
-    stop_posix = Date.parse(stop_dt_string).getTime()/1000;
+    start_posix = 0;
+    stop_posix = 1451606400;
+    if (start_dt_string != null && start_dt_string != "")
+      start_posix = Date.parse(start_dt_string).getTime()/1000;
+    if (stop_dt_string != null && stop_dt_string != "")
+      stop_posix = Date.parse(stop_dt_string).getTime()/1000;
 
     range_low = $('#range_low').val();
     range_high = $('#range_high').val();
 
     cold_per = $('#cold_per').val();
     hot_per = $('#hot_per').val();
+    jsonTemplate = {
+      "blocks" : [ {
+        "days" : days_arr,
+        "dnr_if" : {
+          "hot_days" : skip_hot,
+          "rain_days" : skip_rain
+        },
+        "duration" : {
+          "cold_percent" : cold_per,
+          "hot_percent" : hot_per,
+          "temp_range_F" : [ range_low, range_high ],
+          "time_sec" : dur_sec
+        },
+        "frequency" : {
+          "every_min" : freq_min,
+          "repeat_length_min" : min_repeat_length
+        },
+        "repeat" : is_repeat,
+        "start_stop_posix" : [ start_posix, stop_posix ],
+        "times" : times_arr
+      } ],
+      "name" : "ProfileToDemo"
+    };
+
+  json_formatted = JSON.stringify(jsonTemplate);
+
+
+  json_formatted = JSON.stringify(jsonTemplate);
+  console.log(json_formatted);
+  profileRef.push(json_formatted);
+
   }
+
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
     document.getElementById("humidity").innerHTML = "Waiting for data...";
@@ -373,7 +410,7 @@ h1 {
         });
       });
       graphData2 = myHumidities;
-      console.log("graphData2: " + graphData2.toString());
+     // console.log("graphData2: " + graphData2.toString());
       for(i = 0;i<10;i++)
       {
         chart.series[1].data[i].update(graphData2[i]); 
@@ -388,7 +425,7 @@ h1 {
         });
       });
       graphData = myTemps;
-      console.log("graphData: " + graphData.toString());
+      //console.log("graphData: " + graphData.toString());
       for(i = 0;i<10;i++)
       {
         chart.series[0].data[i].update(graphData[i]);
