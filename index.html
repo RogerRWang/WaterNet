@@ -254,15 +254,9 @@ Timestamp: <span id="tstamp"></span>
                myHumidities = [];
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                });
-      tempHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
-        tempHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
-          myTemps = [];
-          snapshot2.forEach(function(data) {
-            myTemps.push(data.val());
-          });
-        });
-      });
-       graphData = myTemps;
+
+      var chart=$("#container").highcharts();
+
       humidityHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
         humidityHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
           myHumidities = [];
@@ -272,6 +266,26 @@ Timestamp: <span id="tstamp"></span>
         });
       });
       graphData2 = myHumidities;
+      console.log("graphData2: " + graphData2.toString());
+      for(i = 0;i<10;i++)
+      {
+        chart.series[1].data[i].update(graphData2[i]); 
+      }
+
+      tempHistRef.orderByKey().limitToLast(10).on("child_added", function(snapshot) {
+        tempHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
+          myTemps = [];
+          snapshot2.forEach(function(data) {
+            myTemps.push(data.val());
+          });
+        });
+      });
+      graphData = myTemps;
+      console.log("graphData: " + graphData.toString());
+      for(i = 0;i<10;i++)
+      {
+        chart.series[0].data[i].update(graphData[i]);
+      }
     }, 6000);
   }
 
@@ -285,8 +299,9 @@ Timestamp: <span id="tstamp"></span>
     $.post( requestURL, { params: time, access_token: accessToken });
   }
 
+
+
   $(function () {
-    console.log("the graph data" + graphData.toString());
       $('#container').highcharts({
           title: {
               text: 'Temperature & Humidity History',
@@ -324,10 +339,10 @@ Timestamp: <span id="tstamp"></span>
           },
           series: [{
              name: 'Temperature',
-             data: [graphData]
+             data: [1,2,3,4,5,6,7,8,9,10]
          }, {
              name: 'Humidity',
-             data: [0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1]
+             data: [1,2,3,4,5,6,5,4,3,2]
          }]
      });
  });
