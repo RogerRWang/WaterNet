@@ -155,7 +155,7 @@ h1 {
             <option value="hrs">hours</option>
           </select>
 
-          
+
           <br><br>
       <b>Days of the Week: </b> <br>
 
@@ -185,14 +185,14 @@ h1 {
               </div>
 
       <b>Stop Date/Time</b> <br>
+        <br>
 
-<div class="form-group" style="width: 300px;">
-              <div class='input-group date datetimepicker3'>
-                  <input type='text' class="form-control" id="stop_dt" />
-                  <span class="input-group-addon">
-                      <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-                        
+      <h5><b>Duration Options</b></h5>
+
+      <b>Temperature Range: </b>
+      <input type="text" id="range_low" class="form-control" style="width:50px; display:inline;" value="50">
+          to
+          <input type="text" id="range_high" class="form-control" style="width:50px; display:inline;" value="80">
 
               </div>
               <br><br>
@@ -316,6 +316,9 @@ h1 {
     
     start_dt_string = $('#start_dt').val();
     stop_dt_string = $('#stop_dt').val();
+
+    range_low = $('#range_low').val();
+    range_high = $('#range_high').val();
 
   }
   function updateSensorData() {
