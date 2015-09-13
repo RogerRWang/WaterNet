@@ -61,10 +61,10 @@ def timerLoop():
 
 def oneTimeOn(duration):
 	payload = "on"
-	#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+	r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
 	time.sleep(duration)
 	payload = "off"
-	#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+	r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
  
 
 def freqOn (duration, min_repeat, repeatLength_min):
@@ -72,11 +72,11 @@ def freqOn (duration, min_repeat, repeatLength_min):
 	for num in range(1, int(floor(repeatLength_min/min_repeat))):
 		payload = "on"
 		print "on"
-		#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
 		time.sleep(duration)
 		payload = "off"
 		print "off"
-		#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
  		print min_repeat*60-duration
  		time.sleep(min_repeat*60 - duration)
 
