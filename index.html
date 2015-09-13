@@ -187,13 +187,20 @@ h1 {
       <b>Stop Date/Time</b> <br>
         <br>
 
-      <h5><b>Duration Options</b></h5>
+      <h5><b>Duration Adjustment</b></h5>
 
       <b>Temperature Range: </b>
       <input type="text" id="range_low" class="form-control" style="width:50px; display:inline;" value="50">
           to
           <input type="text" id="range_high" class="form-control" style="width:50px; display:inline;" value="80">
 
+        <br><br>
+      <input type="text" id="cold_per" class="form-control" style="width:50px; display:inline;" value="0.1">
+      <b>Cold Percent Adjustment </b>
+<br><br>
+      <input type="text" id="hot_per" class="form-control" style="width:50px; display:inline;" value="0.2">
+                    <b>Hot Percent Adjustment </b>
+<br>
               </div>
               <br><br>
               <button class="btn btn-primary" id="save">Save</button>&nbsp;
@@ -245,6 +252,7 @@ h1 {
 
   $('#addTime').click(addTime);
   $('#save').click(submit);
+
   $('#freq_btn').click(function() {
     $('#time_btn').removeClass('active');
     $('#freq_btn').addClass('active');
@@ -320,6 +328,8 @@ h1 {
     range_low = $('#range_low').val();
     range_high = $('#range_high').val();
 
+    cold_per = $('#cold_per').val();
+    hot_per = $('#hot_per').val();
   }
   function updateSensorData() {
     document.getElementById("temp").innerHTML = "Waiting for data...";
