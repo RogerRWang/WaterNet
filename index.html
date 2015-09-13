@@ -322,6 +322,7 @@ my_counter = 0;
   myFirebaseRef.child("curr_sched").once("value", function(snapshot) {
           profile_index = parseInt(snapshot.val());
                            getProfileNames();
+              updateProfileTable();
       
     });
 
@@ -341,9 +342,10 @@ my_counter = 0;
       //  var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
        // console.log(temp_range);
       /*$('#schedules tr:last').after("<tr><td>Freq here</td><td>Flow duration</td><td>Week Days</td><td></td><td>Rain?</td><td>Hot?</td><td>Start time</td><td>End time</td><td></td><td>Temp range</td><td>Duration adjustment</td></tr>");*/
+        console.log(profile_index);
 
-      if(profile_index==0)
-        $('#schedules tr:last').after("<tr><td>Once evey 15 sec</td><td>2 sec</td><td>SuMTWThFS</td><td></td><td>Y</td><td>N</td><td></td><td></td><td></td><td></td><td></td></tr>");
+      if(true)
+        $('#schedules tr:last').after("<tr><td>Once evey 15 sec</td><td>2 sec</td><td>SuMTWThFS</td><td></td><td>Y</td><td>N</td><td>9/2/15</td><td>none</td><td></td><td>60-90</td><td>none</td></tr>");
       else
          $('#schedules tr:last').after("<tr><td>Once every 2 min</td><td>2 sec</td><td>SuS</td><td></td><td>N</td><td>Y</td><td></td><td></td><td></td><td></td><td></td></tr>");
   }
