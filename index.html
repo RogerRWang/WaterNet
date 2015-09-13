@@ -394,7 +394,7 @@ h1 {
         humidityHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
           myHumidities = [];
           snapshot2.forEach(function(data) {
-            myHumidities.push(data.val());
+            myHumidities.push(Number((data.val()).toFixed(1)));
           });
         });
       });
@@ -409,7 +409,7 @@ h1 {
         tempHistRef.orderByKey().limitToLast(10).on("value", function(snapshot2) {
           myTemps = [];
           snapshot2.forEach(function(data) {
-            myTemps.push(data.val());
+            myTemps.push(Number((data.val()).toFixed(1)));
           });
         });
       });
