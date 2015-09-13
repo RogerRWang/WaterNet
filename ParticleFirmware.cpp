@@ -20,12 +20,17 @@ DHT dht(DHTPIN, DHTTYPE);
 
 int led1 = D6;
 int led2 = D7;
+int buttonPin = D5;
+int durOpen= 0;
 float humidity = 0;
 float tempC = 0;
 float tempF = 0;
+int buttonState = 0;
 
 double tempFDouble = 0;
 double humidityDouble = 0;
+
+int counter = 0;
 // Last time, we only needed to declare pins in the setup function.
 // This time, we are also going to register our Spark function
 char myIpString[24];
@@ -42,9 +47,10 @@ void setup()
    // Here's the pin configuration, same as last time
    pinMode(led1, OUTPUT);
    pinMode(led2, OUTPUT);
-
+   pinMode(buttonPin, INPUT);
    // We are also going to declare a Spark.function so that we can turn the LED on and off from the cloud.
    Spark.function("led",ledToggle);
+   Spark.function("ledOnFor",ledOnFor);
    // This is saying that when we ask the cloud for the function "led", it will employ the function ledToggle() from this app.
 
    // For good measure, let's also make sure both LEDs are off when we start:
@@ -62,29 +68,52 @@ void loop()
 {
    // Nothing to do here
    // Wait a few seconds between measurements.
-  delay(2000);
-// Reading temperature or humidity takes about 250 milliseconds!
-// Sensor readings may also be up to 2 seconds 'old' (its a 
-// very slow sensor)
-   humidity = dht.getHumidity();
-   humidityDouble = humidity;
-// Read temperature as Celsius
-   tempC = dht.getTempCelcius();
-   
-// Read temperature as Farenheit
-   tempF = dht.getTempFarenheit();
-   tempFDouble = tempF;
-  
+  counter = counter + 1;
+  if(counter > 2000) {
+      counter = 0;
+    // Reading temperature or humidity takes about 250 milliseconds!
+    // Sensor readings may also be up to 2 seconds 'old' (its a 
+    // very slow sensor)
+       humidity = dht.getHumidity();
+       humidityDouble = humidity;
+    // Read temperature as Celsius
+       tempC = dht.getTempCelcius();
+       
+    // Read temperature as Farenheit
+       tempF = dht.getTempFarenheit();
+       tempFDouble = tempF;
+  }
+    buttonState = digitalRead(buttonPin);
+    /*
+    if (buttonState == HIGH) {
+    // turn LED on:
+      digitalWrite(led1, HIGH);
+      digitalWrite(led2, HIGH);
+    } else {
+    // turn LED off:
+      digitalWrite(led1, LOW);
+      digitalWrite(led2, LOW);
+    }*/
 // Check if any reads failed and exit early (to try again).
   if (isnan(humidity) || isnan(tempC) || isnan(tempF)) {
     Serial.println("Failed to read from DHT sensor!");
     return;
   }
+  delay(1);
 }
 
 // We're going to have a super cool function now that gets called when a matching API request is sent
 // This is the ledToggle function we registered to the "led" Spark.function earlier.
 
+int ledOnFor(String dur) {
+    durOpen = dur.toInt();
+    digitalWrite(led1,HIGH);
+    digitalWrite(led2,HIGH);
+    delay(durOpen);
+    digitalWrite(led1,LOW);
+    digitalWrite(led2,LOW);
+    return 0;
+}
 
 int ledToggle(String command) {
     /* Spark.functions always take a string as an argument and return an integer.
