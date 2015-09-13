@@ -207,7 +207,6 @@ Timestamp: <span id="tstamp"></span>
                document.getElementById("temp").innerHTML = parseFloat(json.result).toFixed(1) + "&deg; F";
                tempRef.set(json.result);
                tempHistRef.push(json.result);
-               console.log(myTemps.toString());
                myTemps = [];
                });
       requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
@@ -215,7 +214,6 @@ Timestamp: <span id="tstamp"></span>
                document.getElementById("humidity").innerHTML = parseFloat(json.result).toFixed(1) + "%";
                humidityRef.set(json.result);
                humidityHistRef.push(json.result);
-               console.log(myHumidities.toString());
                myHumidities = [];
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                });
