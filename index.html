@@ -44,7 +44,10 @@ h1 {
     <div class="panel panel-default" style="height:100%; margin:10px 15px 10px 10px;">
       <div class="panel-body">
 
-      <p><font size="5"> Temperature Sensor: <span id="temp"></span></font></p>
+      <p><font size="5"> Temperature Sensor:
+      <br>
+      <span id="temp"></span></font></p>
+      </br>
 
       </div>
     </div>
@@ -53,7 +56,10 @@ h1 {
   <div style="width:50%; height: 150px; float:left">
     <div class="panel panel-default" style="height:100%; margin:10px 10px 10px 15px;">
       <div class="panel-body">
-      <p><font size="5">  Humidity: <span id="humidity"></span></span></font></p>
+      <p><font size="5">  Humidity:
+          <br>
+        <span id="humidity"></span></span></font></p>
+      </br>
       </div>
     </div>
   </div>
@@ -181,12 +187,12 @@ Tomorrow: 74&deg;F, Rain
 
       requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
       $.getJSON(requestURL, function(json) {
-               document.getElementById("temp").innerHTML = json.result + "&deg; F";
+               document.getElementById("temp").innerHTML = parseFloat(json.result).toFixed(1) + "&deg; F";
                tempRef.set(json.result);
                });
       requestURL2 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
       $.getJSON(requestURL2, function(json) {
-               document.getElementById("humidity").innerHTML = json.result + "% Humidity";
+               document.getElementById("humidity").innerHTML = parseFloat(json.result).toFixed(1) + "% Humidity";
                humidityRef.set(json.result);
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
                });
