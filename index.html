@@ -17,6 +17,8 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
+
+
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -73,14 +75,12 @@ h1 {
   </div>
 
 </div>
-
 <div style="height: 260px;position:relative;margin:30px;" class="panel panel-default">
-  <div style="z-index:11;position:absolute;top:15px;left:50%;transform:translateX(-50%) translateY(-50%);"><b>Weather at University of Michigan</b></div>
+  <div style="z-index:11;position:absolute;top:15px;left:50%;transform:translateX(-50%) translateY(-50%);"><b>Weather for University of Michigan</b></div>
 <iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat=42.2828&lon=-83.7347&name=University of Michigan" style="padding-left:0px;width:80%"> </iframe>
   <div style="position:absolute; top:0;left:0; background-color:white; width:100%; height:50px;z-index: 10;">
   </div>
 </div>
-
 <div style="background-color:#99CCFF; padding-bottom: 30px">
   <h1>Watering Times</h1>
   <b>Profile</b> &nbsp;
@@ -99,8 +99,7 @@ h1 {
   <br><br>
   <div style="text-align: left;border-radius: 20px;background-color:white; width: 70%; margin: 0 auto; padding: 10px 0;">
     <div style="height: 200px; padding-left: 40px;">
-      <b>Add Water Schedule</b>
-      <br>Repeat?
+      Repeat?
     </div>
   </div>
 </div>
@@ -173,17 +172,7 @@ Timestamp: <span id="tstamp"></span>
     <input type="submit" value="Go!">
   </form>
 
-  <h3>Water Used: 20 L the past week</h3>
-  <h3>Water History:</h3>
-  <ul>
-    <li>Watered for 1 minute at 7:00pm yesterday</li>
-    <li>Watered for 1 minute at 7:00pm Thursday 9/10/15</li>
-    <a href>More...</a>
-  </ul>
-
-  <h3>Combined Graph</h3>
-
-  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <script>
   $(function() {
@@ -234,16 +223,19 @@ Timestamp: <span id="tstamp"></span>
   $(function () {
       $('#container').highcharts({
           title: {
-              text: 'Watering History',
+              text: 'Temperature & Humidity History',
               x: -20 //center
           },
           subtitle: {
-              text: 'Over the past week',
+              text: 'Over the past minute',
               x: -20
           },
           xAxis: {
-              categories: ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat',
-                  'Sun']
+            title: {
+                text: 'Seconds (s)'
+            },
+              categories: ['6', '12', '18', '24', '30', '36',
+                  '42', '48', '54', '60']
           },
           yAxis: {
               title: {
@@ -265,11 +257,14 @@ Timestamp: <span id="tstamp"></span>
               borderWidth: 0
           },
           series: [{
-              name: 'History',
-              data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-          }]
-      });
-  });
+             name: 'Temperature',
+             data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3]
+         }, {
+             name: 'Humidity',
+             data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1]
+         }]
+     });
+ });
 
 </script>
 
