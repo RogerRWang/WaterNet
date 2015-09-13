@@ -98,6 +98,7 @@ h1 {
     </optgroup>
   </select> -->
   <br><br>
+  <a href>New Profile</a> | 
   <a href>Edit Name</a> |
   <a href>Delete</a>
   <br><br>
@@ -336,10 +337,10 @@ my_counter = 0;
       $("#schedules").find("tr:gt(0)").remove();
 
       console.log(JSON.stringify(a));
-      /*var blocks = a[0]["blocks"];
-      for(var i=0; i<blocks.length; i++) {
-        var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
-        console.log(temp_range);*/
+      //var blocks = a[0]["blocks"];
+      //for(var i=0; i<blocks.length; i++) {
+      //  var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
+      //  console.log(temp_range);
       $('#schedules tr:last').after("<tr><td>Freq here</td><td>Flow duration</td><td>Week Days</td><td></td><td>Rain?</td><td>Hot?</td><td>Start time</td><td>End time</td><td></td><td>Temp range</td><td>Duration adjustment</td></tr>");
       //}
       
