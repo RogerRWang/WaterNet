@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/js/bootstrap-select.min.js"></script>
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datejs/1.0/date.min.js"></script>
 
 
 <style>
@@ -325,7 +325,9 @@ h1 {
     
     start_dt_string = $('#start_dt').val();
     stop_dt_string = $('#stop_dt').val();
-
+    start_posix = Date.parse(start_dt_string).getTime()/1000;
+    stop_posix = Date.parse(stop_dt_string).getTime()/1000;
+    
     range_low = $('#range_low').val();
     range_high = $('#range_high').val();
 
