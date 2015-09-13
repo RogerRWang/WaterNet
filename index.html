@@ -17,6 +17,8 @@
 <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="http://code.highcharts.com/modules/exporting.js"></script>
 
+
+
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
@@ -74,15 +76,12 @@ h1 {
 
 </div>
 
-<div style="height:20px;" class="clear">
+<div style="height:20px;">
 
 </div>
-<div style="height: 260px;position:relative;width:100%;" class="panel panel-default">
-  <div style="z-index:11;position:absolute;top:0;left:0">Weather at University of Michigan</div>
-<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat=42.2828&lon=-83.7347&name=University of Michigan" style="padding-left:0px;margin-left:0px"> </iframe>
-  <div style="position:absolute; top:0;left:0; background-color:white; width:100%; height:50px;z-index: 10;">
-  </div>
-</div>
+
+<iframe id="forecast_embed" type="text/html" frameborder="0" height="245" width="100%" src="http://forecast.io/embed/#lat=42.2828&lon=-83.7347&name=University of Michigan"> </iframe>
+
 
 <div style="background-color:#99CCFF; padding-bottom: 30px">
   <h1>Watering Times</h1>
@@ -102,8 +101,7 @@ h1 {
   <br><br>
   <div style="text-align: left;border-radius: 20px;background-color:white; width: 70%; margin: 0 auto; padding: 10px 0;">
     <div style="height: 200px; padding-left: 40px;">
-      <b>Add Water Schedule</b>
-      <br>Repeat?
+      Repeat?
     </div>
   </div>
 </div>
@@ -185,9 +183,13 @@ Timestamp: <span id="tstamp"></span>
     <br>[Visualization?]
   </ul>
 
+  <h3>Temperature History:</h3>
+
+  <h3>Humidity History:</h3>
+
   <h3>Combined Graph</h3>
 
-  <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 <script>
   $(function() {
@@ -238,16 +240,16 @@ Timestamp: <span id="tstamp"></span>
   $(function () {
       $('#container').highcharts({
           title: {
-              text: 'Watering History',
+              text: 'Temperature & Humidity History',
               x: -20 //center
           },
           subtitle: {
-              text: 'Over the past week',
+              text: 'Over the past minute',
               x: -20
           },
           xAxis: {
-              categories: ['Mon', 'Tues', 'Wed', 'Thur', 'Fri', 'Sat',
-                  'Sun']
+              categories: ['6', '12', '18', '24', '30', '36',
+                  '42', '48', '54', '60']
           },
           yAxis: {
               title: {
@@ -269,11 +271,14 @@ Timestamp: <span id="tstamp"></span>
               borderWidth: 0
           },
           series: [{
-              name: 'History',
-              data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-          }]
-      });
-  });
+             name: 'Temperature',
+             data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3]
+         }, {
+             name: 'Humidity',
+             data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1]
+         }]
+     });
+ });
 
 </script>
 
