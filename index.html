@@ -185,7 +185,14 @@ h1 {
               </div>
 
       <b>Stop Date/Time</b> <br>
-        <br>
+
+        <div class="form-group" style="width: 300px;">
+              <div class='input-group date datetimepicker3'>
+                  <input type='text' class="form-control" id="stop_dt"/>
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+              </div>
 
       <h5><b>Duration Adjustment</b></h5>
 
@@ -327,7 +334,7 @@ h1 {
     stop_dt_string = $('#stop_dt').val();
     start_posix = Date.parse(start_dt_string).getTime()/1000;
     stop_posix = Date.parse(stop_dt_string).getTime()/1000;
-    
+
     range_low = $('#range_low').val();
     range_high = $('#range_high').val();
 
