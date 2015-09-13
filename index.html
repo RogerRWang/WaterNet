@@ -6,12 +6,14 @@
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/css/bootstrap-select.min.css">
 
 <script src='https://code.jquery.com/jquery-2.1.4.min.js'></script>
 <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js'></script>
 <script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.3/js/bootstrap-select.min.js"></script>
 
 <style>
 body {
@@ -40,7 +42,7 @@ h1 {
 
 <div style="height:200px; margin: 20px; ">
 
-  <div style="width:50%; height: 150px; float:left">
+  <div style="width:50%; height: 200px; float:left">
     <div class="panel panel-default" style="height:100%; margin:10px 15px 10px 10px;">
       <div class="panel-body">
 
@@ -55,7 +57,7 @@ h1 {
     </div>
   </div>
 
-  <div style="width:50%; height: 150px; float:left">
+  <div style="width:50%; height: 200px; float:left">
     <div class="panel panel-default" style="height:100%; margin:10px 10px 10px 15px;">
       <div class="panel-body">
       <p><font size="5">  Humidity:
@@ -70,7 +72,7 @@ h1 {
 
 </div>
 
-<div style="height:70px;">
+<div style="height:20px;">
 
 </div>
 
@@ -94,7 +96,11 @@ h1 {
   <a href>Delete</a>
 
   <br><br>
-  <h3>New</h3>
+  <div style="background-color:white; width: 70%; margin: 0 auto;">
+    <div>
+      
+    </div>
+  </div>
 </div>
 
 <table id="schedules" border="1">
@@ -155,9 +161,6 @@ h1 {
 <br><br>
 Timestamp: <span id="tstamp"></span>
 
-<h3>Weather: 75&deg;F</h3>
-Tomorrow: 74&deg;F, Rain
-
 <form action="https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859" method="POST">
   <h3>Manual Control</h3>
     <input type="radio" name="args" value="on">Open
@@ -184,6 +187,9 @@ Tomorrow: 74&deg;F, Rain
   <h3>Combined Graph</h3>
 
 <script>
+  $(function() {
+    $('.selectpicker').selectpicker();
+  });
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
