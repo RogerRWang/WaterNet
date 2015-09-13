@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<script src="https://cdn.firebase.com/js/client/2.2.9/firebase.js"></script>
+</head>
+<body>
+	<script>
+		var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
+		var tempRef = myFirebaseRef.child("curr_temp");
+		var humidityRef = myFirebaseRef.child("curr_humidity");
+		tempRef.set(75);
+		humidityRef.set(45);
+	</script>
+</body>
+</html>
