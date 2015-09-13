@@ -341,9 +341,11 @@ my_counter = 0;
       //  var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
        // console.log(temp_range);
       /*$('#schedules tr:last').after("<tr><td>Freq here</td><td>Flow duration</td><td>Week Days</td><td></td><td>Rain?</td><td>Hot?</td><td>Start time</td><td>End time</td><td></td><td>Temp range</td><td>Duration adjustment</td></tr>");*/
-      $('#schedules tr:last').after("<tr><td>Once evey 15 sec</td><td>2 sec</td><td>SuMTWThFS</td><td></td><td>x</td><td>N</td><td></td><td></td><td></td><td></td><td></td></tr>");
-      
-      
+
+      if(profile_index==0)
+        $('#schedules tr:last').after("<tr><td>Once evey 15 sec</td><td>2 sec</td><td>SuMTWThFS</td><td></td><td>Y</td><td>N</td><td></td><td></td><td></td><td></td><td></td></tr>");
+      else
+         $('#schedules tr:last').after("<tr><td>Once every 2 min</td><td>2 sec</td><td>SuS</td><td></td><td>N</td><td>Y</td><td></td><td></td><td></td><td></td><td></td></tr>");
   }
 
   function addTime() {
