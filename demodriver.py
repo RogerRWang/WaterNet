@@ -9,7 +9,7 @@ import json
 from urllib2 import Request, urlopen, URLError
 import pyowm
 
-def timerLoop():
+def timerLoop(prevMinute):
 
 	curr_sched = f.child('curr_sched').get() #gets which schedule is current
 	profiles = f.child('profiles').get() #gets the array containing all profiles
@@ -19,6 +19,7 @@ def timerLoop():
 	dOfWeek = datetime.datetime.now().weekday()
 	currHour = datetime.datetime.now().hour
 	currMinute = datetime.datetime.now().minute
+
 
 	blocks_path = curr_profile_path.child('blocks')
 	blocks = blocks_path.get()
@@ -33,10 +34,20 @@ def timerLoop():
 					blocks_path.set(array1)
 
 			elif dOfWeek in block["days"] and not (block["start_stop_posix"][0] > time.mktime(currTime.timetuple())):
+	
+	if currMinute != prevMinute:
+		prevMinute = currMinute
+		blocks_path = curr_profile_path.child('blocks')
+		blocks = blocks_path.get()
+		for index, block in enumerate(blocks):
+			
+			if block["start_stop_posix"][1] < time.mktime(currTime.timetuple()):
+				blocks_path.child(str(index)).delete()
+			elif block["days"]==dOfWeek and not (block["start_stop_posix"][0] > time.mktime(currTime.timetuple())):
+				
 				times = block["times"]
 				
 				for eachTime in times:
-					
 					hour = int(eachTime[0:2])
 					minute = int(eachTime[2:4])
 					if hour == currHour and minute == currMinute:
@@ -44,10 +55,22 @@ def timerLoop():
 						curr_humidity = f.child('curr_humidity').get()
 						duration_on = block["duration"]["time_sec"]
 						#(hot, rain) = weatherGet()
+					hour = eachTime[0:1]
+					minute = eachTime[2:3]
+					
+					if hour == currHour and minute == currMinute:
+
+						curr_temp = f.get('curr_temp')
+						curr_humidity = f.get('curr_humidity')
+						duration_on = block["duration"]["time_sec"]
+						(hot, rain) = weatherGet()
+						
+>>>>>>> e7db469decb47680760a096c9ed535cf6d02957d
 						if not ((hot and block["dnr-if"]["hot_days"]) or (rain and block["dnr-if"]["rain_days"])):
 
 							if curr_temp < block["duration"]["temp_range_F"][0]:
 								duration_on = duration_on * (1-block["duration"]["cold_percent"])
+<<<<<<< HEAD
 							elif curr_temp > block["duration"]["temp_range_F"][1]:
 								duration_on = duration_on * (1+block["duration"]["hot_percent"])
 
@@ -59,26 +82,34 @@ def timerLoop():
 								tf.start()
 
 	time.sleep(60)
+=======
+							elif curr_temp > ["duration"]["temp_range_F"][1]:
+								duration_on = duration_on * (1+block["duration"]["hot_percent"])
+
+							if block["frequency"] is None:
+								t = Thread(target = oneTimeOn, args=(duration_on,))
+							else:
+								t = Thread(target = freqOn, args=(duration_on, block["frequency"]["every_min"], block["frequency"]["repeat_length_min"]))
+>>>>>>> e7db469decb47680760a096c9ed535cf6d02957d
 
 def oneTimeOn(duration):
 	payload = "on"
-	#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+	r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+	print(duration)
 	time.sleep(duration)
 	payload = "off"
-	#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+	r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
  
 
 def freqOn (duration, min_repeat, repeatLength_min):
 	first_sec = time.clock()
-	for num in range(1, int(floor(repeatLength_min/min_repeat))):
+	while (time.clock() < first_sec + 60* repeatLength_min):
 		payload = "on"
-		print "on"
-		#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
+		print(duration)
 		time.sleep(duration)
 		payload = "off"
-		print "off"
-		#r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
- 		print min_repeat*60-duration
+		r = requests.post("https://api.particle.io/v1/devices/54ff6a066672524819361267/led?access_token=22de5c62f0253e4cabad74d98664301dabaa4859", params = payload)
  		time.sleep(min_repeat*60 - duration)
 
 def weatherGet():
@@ -100,6 +131,7 @@ def weatherGet():
 		heatIndex = getHeatIndex(humidity, temp)
 		hot = heatIndex > 100
 		rain = weather.get_weather_code() < 623 and weather.get_weather_code() > 199
+		return (hot, rain)
 
 
 
@@ -124,15 +156,9 @@ token = create_token("1yh4UVShYCta7gulWb7WZRQFgKldrPVrWny65nRk", auth_payload)
 
 f = Firebase('https://mhacks6.firebaseio.com')
 owm = pyowm.OWM('fb55216966c6d7b8a71ec1d3ad85e0c0')
-hot = 0
-rain = 0
-starting_minute = datetime.datetime.now().minute
 
 while(True):
-	print "running"
-	running = Thread(target = timerLoop)
+	running = Thread(target = timerLoop, args=(-1,))
 	weatherT = Thread(target = weatherGet)
 	running.start()
 	weatherT.start()
-	running.join()
-	weatherT.join()
