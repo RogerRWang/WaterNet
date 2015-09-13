@@ -24,21 +24,28 @@ body {
 }
 h1 {
   margin:0;
-  line-height: 200px;
+  line-height: 150px;
   font-family: 'Roboto Slab';
 }
 </style>
 
-<div style="height:200px; background-color:Navy; color:white">
+<div style="height:150px; background-color:White; color:Navy">
   <h1>Water Wizard</h1>
 </div>
 
-<div class="well" style="margin: 10px">
+<div style="height:230px; padding:40px;background-color:Navy; color:white">
   <p>Upcoming watering time: <b>7:00 pm (in 3 hours)</b></p>
-  <a href>Skip this one</a><br><br>
+  <a href>Skip this time</a><br><br><br>
   <button class="btn btn-default btn-lg">Water Now!</button>
 </div>
 
+<div style="height:100px">
+  
+</div>
+
+<div style="height:70px;">
+  
+</div>
 <h3>Watering Profile</h3>
 <select>
   <option value="volvo">Water the plants</option>
@@ -141,7 +148,6 @@ Tomorrow: 74&deg;F, Rain
   var myFirebaseRef = new Firebase("https://mhacks6.firebaseio.com/");
   var tempRef = myFirebaseRef.child("curr_temp");
   var humidityRef = myFirebaseRef.child("curr_humidity");
-  var IPAddressRef = myFirebaseRef.child("curr_IP");
   
   updateSensorData();
 
@@ -156,7 +162,6 @@ Tomorrow: 74&deg;F, Rain
       var accessToken = "22de5c62f0253e4cabad74d98664301dabaa4859";
       var varName1 = "temperature";
       var varName2 = "humidity";
-      var varName3 = "ipAddress";
 
       requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
       $.getJSON(requestURL, function(json) {
@@ -168,10 +173,6 @@ Tomorrow: 74&deg;F, Rain
                document.getElementById("humidity").innerHTML = json.result + "% Humidity";
                humidityRef.set(json.result);
                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
-               });
-      requestURL3 = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName3 + "/?access_token=" + accessToken;
-      $.getJSON(requestURL3, function(json) {
-               IPAddressRef.set(json.result);
                });
     }, 6000);
   }
