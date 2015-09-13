@@ -303,15 +303,15 @@ my_counter = 0;
   function getProfileNames() {
 
     myFirebaseRef.child("profiles").on("child_added", function(snapshot) {
-      console.log("getting profile names! value received " + snapshot.val().name);
               $("#profile_list").append("<input name='profile' type='radio' value='" + my_counter + "'> " + snapshot.val().name + " ");
                     my_counter++;
 
                 profile_arr.push(snapshot.val());
-
+                  updateProfileTable();
                 $('input[type=radio][name=profile]').change(function() {
         console.log('Setting profile number to ' + this.value);
         myFirebaseRef.child('curr_sched').push(parseInt(this.value));
+
     });
     });
   }
@@ -320,22 +320,26 @@ my_counter = 0;
   myFirebaseRef.child("curr_sched").once("value", function(snapshot) {
           profile_index = parseInt(snapshot.val());
                            getProfileNames();
-                          showProfileTable();
       
     });
 
 
     //TODO Make the radio buttons update the firebase
   }
-  function showProfileTable() {
-    console.log("index is " + profile_index);
+  function updateProfileTable() {
       //TODO Display table of current active profile
+      console.log("verify " + JSON.stringify(profile_arr));
+
+      console.log("update continued");
       var a = profile_arr[profile_index];
-          console.log("SHow profile table "+ profile_index + " profile_arr " + JSON.stringify(profile_arr, 4));
-      //var blocks = a["blocks"];
-      //for(var i=0; i<blocks.length; i++) {
-      //  var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
-      //  console.log(temp_range);
+
+      $("#schedules").find("tr:gt(0)").remove();
+
+      console.log(JSON.stringify(a));
+      /*var blocks = a[0]["blocks"];
+      for(var i=0; i<blocks.length; i++) {
+        var temp_range = a.temp_range_F[0] + "&deg; to " + a.temp_range_F[1] +"&deg;";
+        console.log(temp_range);*/
       $('#schedules tr:last').after("<tr><td>Freq here</td><td>Flow duration</td><td>Week Days</td><td></td><td>Rain?</td><td>Hot?</td><td>Start time</td><td>End time</td><td></td><td>Temp range</td><td>Duration adjustment</td></tr>");
       //}
       
@@ -443,7 +447,7 @@ my_counter = 0;
         });
       });
       graphData2 = myHumidities;
-      console.log("graphData2: " + graphData2.toString());
+      //console.log("graphData2: " + graphData2.toString());
       for(i = 0;i<10;i++)
       {
         chart.series[1].data[i].update(graphData2[i]); 
@@ -458,7 +462,7 @@ my_counter = 0;
         });
       });
       graphData = myTemps;
-      console.log("graphData: " + graphData.toString());
+      //console.log("graphData: " + graphData.toString());
       for(i = 0;i<10;i++)
       {
         chart.series[0].data[i].update(graphData[i]);
